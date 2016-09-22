@@ -12,7 +12,8 @@
             <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.lastName" class="form-control" type="text" placeholder="Last name">
             <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.password" class="form-control" type="password" placeholder="Password">
             <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="secondPassword" class="form-control" type="password" placeholder="Confirm Password">
-            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.birthDay" class="form-control" type="date" placeholder="Birth day">
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.birthDay" class="form-control" type="date"
+            required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" placeholder="Birth day : dd-mm-yyyy">
             <div>
               <p style="padding-top: 12px; padding-right: 260px;">Your avatar image:</p>
             </div>

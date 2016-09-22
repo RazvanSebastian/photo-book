@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { LoginService, UserLogin} from './login.service';
-import { LocalUserService } from '../../components/global/local-service.component';
+import { LocalUserService } from '../../components/global/local-service.service';
 import { Http} from '@angular/http';
 
 @Component({
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this. _localService.userDetailsStoring(token, userDetails, this.remember);
 
     this.loginStatus = true;
-    this._router.navigateByUrl("/home");
+    this._router.navigateByUrl("");
   }
 
   onLogFailed(error) {

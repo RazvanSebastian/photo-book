@@ -5,11 +5,12 @@ import {HomeComponent} from "./components/home/home.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
 import { AppComponent } from "./app.component";
+import { LoginGuard } from "./components/global/LoginGuard.service";
 
 export const APP_ROUTES = [
 
   //here we are declaring the path in URL and the component to load
-  { path: 'home', component: AppComponent },
+  { path: 'home', component: AppComponent ,canActivate:[LoginGuard]},
   { path: 'register', component: RegisterComponent },
   { path: 'login',component : LoginComponent },
   {path: '' , component : AppComponent , useAsDefault: true }

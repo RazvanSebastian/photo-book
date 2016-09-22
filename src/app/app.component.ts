@@ -1,7 +1,7 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { HomeComponent} from './components/home/index';
 import { ROUTER_DIRECTIVES, Router} from "@angular/router";
-import { LocalUserService} from "../app/components/global/local-service.component"
+import { LocalUserService} from "../app/components/global/local-service.service";
 
 
 @Component({
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   }
 
   toSignOut() {
-    this.switchBool = false;
+    this.switchBool = true;
     this.loginAsUser=false;
     this._localService.logOut();
     this._router.navigateByUrl("");

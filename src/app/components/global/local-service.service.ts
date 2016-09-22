@@ -12,7 +12,6 @@ export class LocalUserService {
   public userId: string;
   public rememberMe: boolean = false;
 
-
   initiateByRememberMe() {
     if (localStorage.getItem(this.tokenName) && localStorage.getItem("REMEMBER-ME")) {
       sessionStorage.setItem(this.tokenName, localStorage.getItem(this.tokenName));
@@ -25,7 +24,7 @@ export class LocalUserService {
     this.token = sessionStorage.getItem(this.tokenName);
     this.email = localStorage.getItem("email");
     if (localStorage.getItem("authority") != null)
-        this.authority = localStorage.getItem("authority").split(",");
+      this.authority = localStorage.getItem("authority").split(",");
   }
 
   clearData() {
@@ -43,16 +42,14 @@ export class LocalUserService {
 
   userDetailsStoring(token: string, userDetails: any, remember: boolean) {
 
-    // this.userId = userDetails.id;
-    // console.log(userDetails.id);
-    // localStorage.setItem("userId", this.userId);
+    this.userId = userDetails.id;
+    localStorage.setItem("userId", this.userId);
 
     this.email = userDetails.email;
     localStorage.setItem("email", this.email);
 
     this.authority = userDetails.roles;
     console.log(userDetails.roles[0]);
-    localStorage.setItem("authority", this.authority);
 
     // this.image=userDetails.image;
 
@@ -63,6 +60,10 @@ export class LocalUserService {
     if (remember) {
       localStorage.setItem(this.tokenName, token);
       localStorage.setItem("REMEMBER-ME", "true");
+    }
+    else{
+      sessionStorage.setItem(this.tokenName, token);
+
     }
   }
 }
