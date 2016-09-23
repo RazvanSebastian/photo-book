@@ -71,6 +71,7 @@ export class RegisterComponent implements OnInit {
 
     reader.onload = function(e) {
       _self.imageSrc = reader.result;
+        console.log(reader.result);
       _self.user.avatar=reader.result;
     };
 

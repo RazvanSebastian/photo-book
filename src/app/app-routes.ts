@@ -4,8 +4,8 @@ import { provideRouter, RouterConfig } from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
-import {MyAccountComponent} from "./components/my-account/my-account.component";
 import { AppComponent } from "./app.component";
+import {PhotoAlbumComponent } from "./components/photo-album/photo-album.component";
 import { LoginGuard } from "./components/global/LoginGuard.service";
 
 export const APP_ROUTES = [
@@ -14,7 +14,8 @@ export const APP_ROUTES = [
   { path: 'home', component: HomeComponent ,/*canActivate:[LoginGuard]*/},
   { path: 'register', component: RegisterComponent },
   { path: 'login',component : LoginComponent },
-  {path: 'account/:id',component:MyAccountComponent,canActivate:[LoginGuard]},
+  // {path: 'account/:id',component:MyAccountComponent,canActivate:[LoginGuard]},
+   {path: 'account/:id/new-album',component:PhotoAlbumComponent,canActivate:[LoginGuard]},
   {path: '' , component : HomeComponent , useAsDefault: true }
 ];
 

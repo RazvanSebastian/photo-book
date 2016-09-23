@@ -1,86 +1,103 @@
-
 <html>
+
 <head>
-<meta charset="UTF-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Multimedia book</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Multimedia book</title>
 
-<!-- Google fonts -->
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+  <!-- Google fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 
-<!-- font awesome -->
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- font awesome -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-<!-- bootstrap -->
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
 
-<!-- animate.css -->
-<link rel="stylesheet" href="assets/animate/animate.css" />
-<link rel="stylesheet" href="assets/animate/set.css" />
+  <!-- animate.css -->
+  <link rel="stylesheet" href="assets/animate/animate.css" />
+  <link rel="stylesheet" href="assets/animate/set.css" />
 
-<!-- gallery -->
-<link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
+  <!-- gallery -->
+  <link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
 
-<!-- favicon -->
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <!-- favicon -->
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
 
-<link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css">
 
 </head>
 
 <body>
 
 
-<div class="topbar animated fadeInLeftBig"></div>
+  <div class="topbar animated fadeInLeftBig"></div>
 
 
-<!-- Header Starts -->
-<div class="navbar-wrapper">
-      <div class="container">
+  <!-- Header Starts -->
+  <div class="navbar-wrapper">
+    <div class="container">
 
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="top-nav">
-          <div class="container">
-            <div class="navbar-header">
-              <!-- Logo Starts -->
-              <a class="navbar-brand" [routerLink]="['/home']"><img src="app\images/logo.png" alt="logo"></a>
-              <!-- #Logo Ends -->
+      <div class="navbar navbar-default navbar-fixed-top" style="height: 110px" role="navigation" id="top-nav">
+        <div class="container">
+          <div class="navbar-header">
+            <!-- Logo Starts -->
+            <a class="navbar-brand" [routerLink]="['/home']"><img src="app\images/logo.png" alt="logo"></a>
+            <!-- #Logo Ends -->
 
 
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
 
-            </div>
-
-
-            <!-- Nav Starts -->
-            <div class="navbar-collapse  collapse">
-              <ul class="nav navbar-nav navbar-right scroll">
-                 <li class="active"><a [routerLink]="['/home']">Home</a></li>
-                 <li *ngIf="loginAsUser==false"> <a [routerLink]="['/login']" >Login</a></li>
-                 <li *ngIf="loginAsUser==false"> <a [routerLink]="['/register']" >Register</a></li>
-                 <li *ngIf="loginAsUser==true" > <a [routerLink]="['/account',userId]" >MyAccount</a></li>
-                 <li *ngIf="loginAsUser==true" (click)="toSignOut()" ><a >SignOut</a></li>
-              </ul>
-            </div>
-            <!-- #Nav Ends -->
-
           </div>
+
+
+          <!-- Nav Starts -->
+          <div class="navbar-collapse  collapse">
+            <ul class="nav navbar-nav navbar-right scroll">
+              <li class="active"><a [routerLink]="['/home']">Home</a></li>
+              <li *ngIf="loginAsUser==false"> <a [routerLink]="['/login']">Login</a></li>
+              <li *ngIf="loginAsUser==false"> <a [routerLink]="['/register']">Register</a></li>
+              <li *ngIf="loginAsUser==true" style="padding-top: 35px ;padding-left: 5px;" >MyAccount</li>
+              <li *ngIf="loginAsUser==true" (click)="toSignOut()"><a>SignOut</a></li>
+            </ul>
+          </div>
+          <!-- #Nav Ends -->
         </div>
+
+        <div>
+        <!-- start second nav bar -->
+        <nav class="navbar navbar-inverse" *ngIf="loginAsUser==true">
+          <div class="container-fluid">
+            <ul class="nav navbar-nav">
+             <li><a [routerLink]="['account/',userId,'/new-album']"><i class="glyphicon glyphicon-edit"></i> Create new album </a></li>
+             <li><a href="editors.html"><i class="glyphicon glyphicon-list"></i> My albums </a></li>
+              <li><a href="editors.html"><i class="glyphicon glyphicon-plus-sign"></i> Add photo </a></li>
+             <li><a href="editors.html"><i class="glyphicon glyphicon-search"></i> Seach photo </a></li>
+
+            </ul>
+          </div>
+        </nav>
       </div>
+
+      </div>
+
+
     </div>
-<!-- #Header Starts -->
+  </div>
+  <!-- #Header Starts -->
 
-  
 
-<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
-<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+
+  <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+  <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
     <!-- The container for the modal slides -->
     <div class="slides"></div>
     <!-- Controls for the borderless lightbox -->
@@ -89,33 +106,34 @@
     <a class="next">›</a>
     <a class="close">×</a>
     <!-- The modal dialog, which will be used to wrap the lightbox content -->
+  </div>
+
+  <!-- Start point of register end login outlet -->
+  <div>
+  <router-outlet></router-outlet>
 </div>
 
-<!-- Start point of register end login outlet -->
 
-  <router-outlet></router-outlet>
+  <!-- jquery -->
+  <script src="assets/jquery.js"></script>
 
-
-
-<!-- jquery -->
-<script src="assets/jquery.js"></script>
-
-<!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
+  <!-- wow script -->
+  <script src="assets/wow/wow.min.js"></script>
 
 
-<!-- boostrap -->
-<script src="assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
+  <!-- boostrap -->
+  <script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>
 
-<!-- jquery mobile -->
-<script src="assets/mobile/touchSwipe.min.js"></script>
-<script src="assets/respond/respond.js"></script>
+  <!-- jquery mobile -->
+  <script src="assets/mobile/touchSwipe.min.js"></script>
+  <script src="assets/respond/respond.js"></script>
 
-<!-- gallery -->
-<script src="assets/gallery/jquery.blueimp-gallery.min.js"></script>
+  <!-- gallery -->
+  <script src="assets/gallery/jquery.blueimp-gallery.min.js"></script>
 
-<!-- custom script -->
-<script src="assets/script.js"></script>
+  <!-- custom script -->
+  <script src="assets/script.js"></script>
 
 </body>
+
 </html>

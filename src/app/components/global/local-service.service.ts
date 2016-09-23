@@ -12,6 +12,7 @@ export class LocalUserService {
   public userId: string;
   public rememberMe: boolean = false;
 
+
   initiateByRememberMe() {
     if (localStorage.getItem(this.tokenName) && localStorage.getItem("REMEMBER-ME")) {
       sessionStorage.setItem(this.tokenName, localStorage.getItem(this.tokenName));

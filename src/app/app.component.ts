@@ -14,13 +14,14 @@ import { LocalUserService} from "../app/components/global/local-service.service"
 })
 export class AppComponent implements OnInit {
 
-  loginAsUser: boolean;
+  loginAsUser: boolean=false;
   userId : any;
 
   constructor(private _router: Router, private _localService: LocalUserService) { };
 
   ngOnInit() {
     this._localService.initiateByRememberMe();
+    console.log(this._localService.userId);
     if (localStorage.getItem("X-AUTH-TOKEN") || sessionStorage.getItem("X-AUTH-TOKEN")){
       this.loginAsUser = true;
       this.userId=this._localService.userId;
@@ -35,6 +36,6 @@ export class AppComponent implements OnInit {
   toSignOut() {
     this.loginAsUser=false;
     this._localService.logOut();
-    this._router.navigateByUrl("/home");
+    this._router.navigateByUrl("");
   }
 }
