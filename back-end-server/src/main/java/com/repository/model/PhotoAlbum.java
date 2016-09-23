@@ -1,5 +1,6 @@
 package com.repository.model;
 
+import java.sql.Blob;
 import java.util.Date;
 import java.util.Set;
 
@@ -33,6 +34,8 @@ public class PhotoAlbum {
 	@NotNull
 	private Date date;
 	
+	private Blob coverImage;
+	
 	@OneToMany(mappedBy="album",fetch=FetchType.LAZY)
 	private Set<Photo> photos;
 	
@@ -52,6 +55,15 @@ public class PhotoAlbum {
 	}
 
 	
+	
+	public Blob getCoverImage() {
+		return coverImage;
+	}
+
+	public void setCoverImage(Blob coverImage) {
+		this.coverImage = coverImage;
+	}
+
 	public Set<Photo> getPhotos() {
 		return photos;
 	}
