@@ -34,7 +34,8 @@ export class LoginComponent implements OnInit {
     this. _localService.userDetailsStoring(token, userDetails, this.remember);
 
     this.loginStatus = true;
-    this._router.navigateByUrl("");
+    // this._router.navigateByUrl("/home");
+    window.location.replace('/home');
   }
 
   onLogFailed(error) {

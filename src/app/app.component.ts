@@ -14,39 +14,27 @@ import { LocalUserService} from "../app/components/global/local-service.service"
 })
 export class AppComponent implements OnInit {
 
-  title = 'app works!';
-  switchBool: boolean;
   loginAsUser: boolean;
+  userId : any;
 
   constructor(private _router: Router, private _localService: LocalUserService) { };
 
   ngOnInit() {
-    this.switchBool = true;
     this._localService.initiateByRememberMe();
-    if (this._localService.token)
+    if (localStorage.getItem("X-AUTH-TOKEN") || sessionStorage.getItem("X-AUTH-TOKEN")){
       this.loginAsUser = true;
+      this.userId=this._localService.userId;
+    }
     else
       this.loginAsUser = false;
-  }
-
-
-  toLogin() {
-    this.switchBool = false;
-    this._router.navigateByUrl("/login");
-  }
-
-  toRegister() {
-    this.switchBool = false;
-    this._router.navigateByUrl("/register");
   }
 
   toMyAccount() {
   }
 
   toSignOut() {
-    this.switchBool = true;
     this.loginAsUser=false;
     this._localService.logOut();
-    this._router.navigateByUrl("");
+    this._router.navigateByUrl("/home");
   }
 }

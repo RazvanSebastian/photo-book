@@ -4,16 +4,18 @@ import { provideRouter, RouterConfig } from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
+import {MyAccountComponent} from "./components/my-account/my-account.component";
 import { AppComponent } from "./app.component";
 import { LoginGuard } from "./components/global/LoginGuard.service";
 
 export const APP_ROUTES = [
 
   //here we are declaring the path in URL and the component to load
-  { path: 'home', component: AppComponent ,canActivate:[LoginGuard]},
+  { path: 'home', component: HomeComponent ,/*canActivate:[LoginGuard]*/},
   { path: 'register', component: RegisterComponent },
   { path: 'login',component : LoginComponent },
-  {path: '' , component : AppComponent , useAsDefault: true }
+  {path: 'account/:id',component:MyAccountComponent,canActivate:[LoginGuard]},
+  {path: '' , component : HomeComponent , useAsDefault: true }
 ];
 
 // the class which is imported in the maint.ts
