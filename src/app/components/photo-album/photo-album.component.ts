@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlbumService , PhotoAlbum } from "./album.service";
+import { AlbumService, PhotoAlbum } from "./album.service";
 import { LocalUserService } from "../global/local-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   moduleId: module.id,
@@ -11,32 +12,34 @@ import { LocalUserService } from "../global/local-service.service";
 })
 export class PhotoAlbumComponent implements OnInit {
 
-  newPhotoAlbum:PhotoAlbum;
-  imageSrc:any;
-  status:boolean;
-  message:string;
+  newPhotoAlbum: PhotoAlbum;
+  imageSrc: any;
+  status: boolean;
+  message: string;
 
-  constructor(private _albumnService:AlbumService,private _localService:LocalUserService) { }
+  constructor(private _albumnService: AlbumService, private _localService: LocalUserService,private _router:Router) { }
 
   ngOnInit() {
-    this.newPhotoAlbum=new PhotoAlbum("","","",new Date,"");
+    this.newPhotoAlbum = new PhotoAlbum("", "", "", new Date, "");
     this._localService.initiateByRememberMe();
   }
 
-onSaveSucces(data){
-  this.status=true;
-  console.log(data);
-}
-onSaveFailed(err){
-  this.status=false;
-  this.message=err._body;
-  console.log(err);
-}
+  onSaveSucces(data) {
+    this.status = true;
+    console.log(data);
+    this._router.navigateByUrl("account/"+this._localService.userId+"/my-collection");
 
-  onGenerateAlbum(){
-    this._albumnService.createNewAlbum(this._localService.userId , this.newPhotoAlbum).subscribe(
-    data => this.onSaveSucces(data),
-    err => this.onSaveFailed(err)
+  }
+  onSaveFailed(err) {
+    this.status = false;
+    this.message = err._body;
+    console.log(err);
+  }
+
+  onGenerateAlbum() {
+    this._albumnService.createNewAlbum(this._localService.userId, this.newPhotoAlbum).subscribe(
+      data => this.onSaveSucces(data),
+      err => this.onSaveFailed(err)
     );
   }
 
@@ -48,7 +51,7 @@ onSaveFailed(err){
 
     reader.onload = function(e) {
       _self.imageSrc = reader.result;
-      _self.newPhotoAlbum.coverImage=reader.result;
+      _self.newPhotoAlbum.coverImage = reader.result;
     };
 
     reader.readAsDataURL(event.target.files[0]);

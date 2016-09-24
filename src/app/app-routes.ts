@@ -6,16 +6,18 @@ import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
 import { AppComponent } from "./app.component";
 import {PhotoAlbumComponent } from "./components/photo-album/photo-album.component";
+import { AlbumCollectionComponent } from "./components/album-collection/album-collection.component";
+//LoginGuard imported to secure my routes
 import { LoginGuard } from "./components/global/LoginGuard.service";
 
 export const APP_ROUTES = [
 
   //here we are declaring the path in URL and the component to load
-  { path: 'home', component: HomeComponent ,/*canActivate:[LoginGuard]*/},
+  { path: 'home', component: HomeComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'login',component : LoginComponent },
-  // {path: 'account/:id',component:MyAccountComponent,canActivate:[LoginGuard]},
    {path: 'account/:id/new-album',component:PhotoAlbumComponent,canActivate:[LoginGuard]},
+   {path: 'account/:id/my-collection',component:AlbumCollectionComponent,canActivate:[LoginGuard]},
   {path: '' , component : HomeComponent , useAsDefault: true }
 ];
 

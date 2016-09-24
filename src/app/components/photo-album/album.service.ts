@@ -25,4 +25,10 @@ export class AlbumService {
     return this._http.post("http://localhost:8080/api/"+"account/"+userId+"/photoAlbum", JSON.stringify(photoAlbum),options);
   }
 
+  receviceAllAlbums(userId){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get("http://localhost:8080/api/"+"account/"+userId+"/clientAlbums",headers);
+  }
+
 }

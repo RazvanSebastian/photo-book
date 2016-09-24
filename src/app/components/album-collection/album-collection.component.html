@@ -1,0 +1,42 @@
+    <title>Thumbnail Gallery - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../gallery/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../../gallery/css/thumbnail-gallery.css" rel="stylesheet">
+
+
+
+<body>
+    <!-- Page Content -->
+    <div class="container" style="margin-top: 130px;">
+
+      <div class="col-lg-12">
+          <h1 *ngIf="length!=0" class="page-header">Your album gallery</h1>
+      </div>
+
+      <div class="col-lg-12">
+          <h3 *ngIf="length==0" class="page-header">Your album gallery is empty!</h3>
+      </div>
+
+      <div *ngFor="let album of albumGallery; let i = index">
+          <br *ngIf="i % 4==0" >
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <a class="thumbnail" style="width: 250px; height: 250px;">
+                  <p>{{album.name}}</p>
+                  <img class="img-responsive" style="width: 400px; height: 210px;" src="{{album.coverImage}}" alt="">
+                </a>
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="../../gallery/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../gallery/js/bootstrap.min.js"></script>
