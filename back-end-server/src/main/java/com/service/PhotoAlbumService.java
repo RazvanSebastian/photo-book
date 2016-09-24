@@ -1,6 +1,8 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,13 @@ public class PhotoAlbumService {
 	@Autowired
 	private UserRepository userRepostiroy;
 	@Autowired
-	 BlobString blobStringConverter;
+	 private BlobString blobStringConverter;
 	@Autowired
-	 ImageService imageService;
+	 private ImageService imageService;
 	
-	
+	/*
+	 * Save new album
+	 * */
 	public void saveNewAlbum(Long userId,PhotoAlbumDto photoAlbum) throws Exception{		
 		this.checkAlbumDetails(photoAlbum);
 		PhotoAlbum album=new PhotoAlbum();
@@ -33,8 +37,8 @@ public class PhotoAlbumService {
 		album.setCategory(photoAlbum.getCategory());
 		album.setDate(new Date());
 		this.imageService.imageVerification(photoAlbum.getCoverImage());
-		album.setCoverImage(this.blobStringConverter.convertToBlob(photoAlbum.getCoverImage()));
-		album.setUserAlbum(this.userRepostiroy.findById(userId));
+		album.setCoverImage(this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage()));
+		album.setUser(this.userRepostiroy.findById(userId));
 		this.albumRepository.save(album);
 	}
 	
@@ -46,5 +50,16 @@ public class PhotoAlbumService {
 		if(album.getCategory().equals(""))
 			throw new Exception("Category field are rquired");
 	}
+	
+	/*
+	 * Receive all albums
+	 * */
+	public List<PhotoAlbumDto> getAllAlbums(long id){
+		List<PhotoAlbumDto> albumToSend=new ArrayList<>();
+		for(PhotoAlbum album:this.albumRepository.findByUserOrderByDate(this.userRepostiroy.findById(id)))
+			albumToSend.add(this.imageService.convertToDto(album));
+		return albumToSend;
+	}
+	
 
 }

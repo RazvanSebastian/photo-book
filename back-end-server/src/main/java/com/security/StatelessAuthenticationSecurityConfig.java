@@ -54,6 +54,10 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
         
         // allow anonymous POSTs to register
         .antMatchers(HttpMethod.POST, "/api/register").permitAll()
+        
+        //allow only authenticated user to add, get
+        .antMatchers(HttpMethod.POST,"api/account/*/photoAlbum").hasAnyRole("USER","ADMIN")
+        .antMatchers(HttpMethod.GET,"api/account/*/clientAlbums").hasAnyRole("USER","ADMIN")
 
         // TODO Please make sure not all methods can be accesed by whoever wants!!!!
         // allow anonymous GETs to API

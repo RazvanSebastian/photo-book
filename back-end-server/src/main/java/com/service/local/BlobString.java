@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BlobString {
 	
-	public Blob convertToBlob(String image){
+	public Blob convertStringToBlob(String image){
 		byte[] byteArray = image.getBytes();
 		try {
 			Blob blob = new javax.sql.rowset.serial.SerialBlob(byteArray);

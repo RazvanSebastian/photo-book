@@ -1,9 +1,16 @@
 package com.service.local;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.entity.DTO.PhotoAlbumDto;
+import com.repository.model.PhotoAlbum;
 
 @Service
 public class ImageService {
+	
+	@Autowired
+	private BlobString converte;
 	
 	public void imageVerification(String image) throws Exception{
 		if(!image.equals("")){
@@ -15,5 +22,15 @@ public class ImageService {
 		}
 		else
 			return;
+	}
+	
+	public PhotoAlbumDto convertToDto(PhotoAlbum album){
+		PhotoAlbumDto dtoAlbum=new PhotoAlbumDto();
+		dtoAlbum.setName(album.getName());
+		dtoAlbum.setDescription(album.getDescription());
+		dtoAlbum.setDate(album.getDate());
+		dtoAlbum.setCategory(album.getCategory());
+		dtoAlbum.setCoverImage(this.converte.convertBlobToString(album.getCoverImage()));
+		return dtoAlbum;
 	}
 }

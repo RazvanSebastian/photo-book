@@ -40,8 +40,8 @@ public class PhotoAlbum {
 	private Set<Photo> photos;
 	
 	@ManyToOne
-	@JoinColumn(name="user_album")
-	private User userAlbum;
+	@JoinColumn(name="user")
+	private User user;
 
 	public PhotoAlbum() {
 	}
@@ -112,14 +112,11 @@ public class PhotoAlbum {
 		this.date = date;
 	}
 
-	public User getUserAlbum() {
-		return userAlbum;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserAlbum(User userAlbum) {
-		this.userAlbum = userAlbum;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
-	
-	
 }

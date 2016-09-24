@@ -44,7 +44,7 @@ public class User implements UserDetails {
 	private Set<UserAuthority> authorities;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="userAlbum",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="user",fetch=FetchType.LAZY)
 	private Set<PhotoAlbum> photoAlbums;
 	
 	@NotNull
