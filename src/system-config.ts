@@ -43,6 +43,8 @@ const barrels: string[] = [
   'app/components/my-account',
   'app/components/photo-album',
   'app/components/album-collection',
+  'app/components/photos',
+  'app/components/new-photo',
   /** @cli-barrel */
 ];
 

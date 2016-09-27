@@ -50,7 +50,7 @@ export class LocalUserService {
     localStorage.setItem("email", this.email);
 
     this.authority = userDetails.roles;
-    console.log(userDetails.roles[0]);
+    localStorage.setItem('authority',JSON.stringify(this.authority));
 
     // this.image=userDetails.image;
 
@@ -64,7 +64,6 @@ export class LocalUserService {
     }
     else{
       sessionStorage.setItem(this.tokenName, token);
-
     }
   }
 }

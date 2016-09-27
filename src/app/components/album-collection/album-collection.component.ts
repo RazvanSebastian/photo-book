@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService,PhotoAlbum } from "../../components/photo-album/album.service";
 import { LocalUserService } from "../global/local-service.service";
+import { Photo } from "../photos/photo.service";
+import { Router } from "@angular/router";
 
 @Component({
   moduleId: module.id,
@@ -13,7 +15,8 @@ export class AlbumCollectionComponent implements OnInit {
 
   albumGallery: Array<PhotoAlbum>;
   length:any;
-  constructor(private _albumService:AlbumService, private _localService:LocalUserService) {
+
+  constructor(private _albumService:AlbumService, private _localService:LocalUserService, private _router:Router) {
     this.albumGallery=new Array<PhotoAlbum>();
   }
 
@@ -38,5 +41,10 @@ export class AlbumCollectionComponent implements OnInit {
       err=>console.log(err)
     );
   }
+
+  moveToPhotoGallery(album){
+    this._router.navigate(['my-collection/'+album.id+'/photos']);
+  }
+
 
 }

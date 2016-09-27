@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
     this.loginStatus = true;
     // this._router.navigateByUrl("/home");
-    window.location.replace('/home');
+     window.location.replace('/home');
   }
 
   onLogFailed(error) {

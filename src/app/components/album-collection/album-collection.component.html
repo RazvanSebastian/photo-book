@@ -21,13 +21,16 @@
       </div>
 
       <div *ngFor="let album of albumGallery; let i = index">
-          <br *ngIf="i % 4==0" >
-            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                <a class="thumbnail" style="width: 250px; height: 250px;">
-                  <p>{{album.name}}</p>
-                  <img class="img-responsive" style="width: 400px; height: 210px;" src="{{album.coverImage}}" alt="">
-                </a>
+          <br *ngIf="i % 3==0" >
+
+          <div class="col-md-4"  (click)="moveToPhotoGallery(album)">
+            <div class="well">
+              <p>{{album.name}}  </p>
+              <p>Category : {{album.category}}</p>
+              <img class="thumbnail img-responsive" alt="Bootstrap template" style="width: 310px; height: 250px;" src="{{album.coverImage}}" />
+              <p>{{album.date | date:"MM/dd/yyyy"}} </p>
             </div>
+          </div>
         </div>
 
         <hr>

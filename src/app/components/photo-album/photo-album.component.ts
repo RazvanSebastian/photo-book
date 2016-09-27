@@ -20,7 +20,7 @@ export class PhotoAlbumComponent implements OnInit {
   constructor(private _albumnService: AlbumService, private _localService: LocalUserService,private _router:Router) { }
 
   ngOnInit() {
-    this.newPhotoAlbum = new PhotoAlbum("", "", "", new Date, "");
+    this.newPhotoAlbum = new PhotoAlbum(1,"", "", "", new Date, "");
     this._localService.initiateByRememberMe();
   }
 

@@ -4,6 +4,7 @@ import { LocalUserService } from "../global/local-service.service";
 
 export class PhotoAlbum {
   constructor(
+    public id: any,
     public name: string,
     public description: string,
     public category: string,
@@ -31,4 +32,9 @@ export class AlbumService {
     return this._http.get("http://localhost:8080/api/"+"account/"+userId+"/clientAlbums",headers);
   }
 
+  receiveAlbum(albumId){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get("http://localhost:8080/api/"+"album/"+albumId+"/details",headers);
+  }
 }

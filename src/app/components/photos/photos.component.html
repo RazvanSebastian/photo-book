@@ -1,0 +1,36 @@
+<div class="container" style="padding-bottom: 120px; margin-top: 260px;">
+    <hr>
+    <div class="row">
+    <div>
+      <h1><u>{{myAlbum.name}}</u></h1>
+      <p>Created at
+          <span>{{myAlbum.date | date:"MM/dd/yyyy"}}</span><br>
+        </p>
+      <div  [ngClass]="['well' , 'surroundingImage']">
+        <img class="thumbnail img-responsive" style="width: 250px; height: 250px;" alt="Bootstrap template" src="{{myAlbum.coverImage}}" />
+      </div>
+      <div >
+        <h4><u>Summary</u></h4>
+        <p><i>{{myAlbum.description}}</i></p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="col-md-4" (click)="onClickNewPhoto()">
+    <div class="well">
+      <img class="thumbnail img-responsive" alt="Bootstrap template" src="app/images/new-photo.png" />
+      <p>add new photo </p>
+    </div>
+  </div>
+
+    <div *ngFor="let photo of photoGallery; let i = index">
+      <div class="col-md-4">
+        <div class="well">
+          <img class="thumbnail img-responsive" alt="Bootstrap template" src="{{photo.image}}" />
+        </div>
+      </div>
+    </div>
+
+</div>

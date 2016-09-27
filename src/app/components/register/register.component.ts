@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   constructor(private _registerService: RegistrationService, private _router: Router) { }
 
   ngOnInit() {
-    this.user = new User("", "", "", "", this.date, "avataravataravataeravatartavsdfd");
+    this.user = new User("", "", "", "", this.date, "");
   }
 
   onRegisterSucces(data) {
