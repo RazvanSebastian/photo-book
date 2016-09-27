@@ -56,10 +56,16 @@ public class PhotoAlbumService {
 	 * */
 	public List<PhotoAlbumDto> getAllAlbums(long id){
 		List<PhotoAlbumDto> albumToSend=new ArrayList<>();
-		for(PhotoAlbum album:this.albumRepository.findByUserOrderByDate(this.userRepostiroy.findById(id)))
+		for(PhotoAlbum album:this.albumRepository.findByUserOrderByDateDesc(this.userRepostiroy.findById(id)))
 			albumToSend.add(this.imageService.convertToDto(album));
 		return albumToSend;
 	}
 	
-
+	/*
+	 * Receive album by id for details header page
+	 * */
+	
+	public PhotoAlbumDto getAlbumById(long id){
+		return this.imageService.convertToDto(this.albumRepository.findById(id));
+	}
 }

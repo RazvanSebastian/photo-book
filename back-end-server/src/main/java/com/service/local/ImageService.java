@@ -26,6 +26,7 @@ public class ImageService {
 	
 	public PhotoAlbumDto convertToDto(PhotoAlbum album){
 		PhotoAlbumDto dtoAlbum=new PhotoAlbumDto();
+		dtoAlbum.setId(album.getId());
 		dtoAlbum.setName(album.getName());
 		dtoAlbum.setDescription(album.getDescription());
 		dtoAlbum.setDate(album.getDate());

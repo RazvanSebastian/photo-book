@@ -8,5 +8,7 @@ import com.repository.model.PhotoAlbum;
 import com.repository.model.User;
 
 public interface PhotoAlbumRepository extends JpaRepository<PhotoAlbum,Long>{
-	List<PhotoAlbum> findByUserOrderByDate(User user);
+	List<PhotoAlbum> findByUserOrderByDateDesc(User user);
+	
+	PhotoAlbum findById(Long id);
 }

@@ -1,58 +1,28 @@
-package com.repository.model;
+package com.entity.DTO;
 
 import java.sql.Blob;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-
-@Entity
-@Table(name="photo")
-public class Photo {
+public class PhotoDto {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	
-	@ManyToOne
-	@JoinColumn(name="album")
-	private PhotoAlbum album;
-	
-	@NotNull
-	private String name;
-	
-	private String description;
-	
-	@NotNull
-	private String category;
-	
-	@NotNull
+	private String name;	
+	private String description;	
+	private String category;	
 	private Long visualisations;
-	
-	@NotNull
 	private double rating;
-
-	@NotNull
 	private Date date;
+	private String image;
 	
-	@NotNull
-	private Blob image;
-	
-	public Photo(){
-		
+	public PhotoDto() {
+		super();
 	}
 	
 	
 
-	public Photo(String name, String description, String category, Long visualisations, double rating, Date date,
-			Blob image) {
+	public PhotoDto(String name, String description, String category, Long visualisations, double rating, Date date,
+			String image) {
 		this.name = name;
 		this.description = description;
 		this.category = category;
@@ -64,8 +34,9 @@ public class Photo {
 
 
 
-	public Photo(Long id, String name, String description, String category, Long visualisations, double rating,
-			Date date, Blob image) {
+	public PhotoDto(Long id, String name, String description, String category, Long visualisations, double rating,
+			Date date, String image) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -74,15 +45,6 @@ public class Photo {
 		this.rating = rating;
 		this.date = date;
 		this.image = image;
-	}
-	
-	
-	public PhotoAlbum getAlbum() {
-		return album;
-	}
-
-	public void setAlbum(PhotoAlbum album) {
-		this.album = album;
 	}
 
 	public Long getId() {
@@ -141,11 +103,11 @@ public class Photo {
 		this.date = date;
 	}
 
-	public Blob getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(Blob image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 }

@@ -37,9 +37,14 @@ public class PhotoAlbumController {
 		}
 	}
 	
-	@RequestMapping(value="api/account/{userId}/clientAlbums",method=RequestMethod.GET)
+	@RequestMapping(value="/api/account/{userId}/clientAlbums",method=RequestMethod.GET)
 	public @ResponseBody List<PhotoAlbumDto> sendAllAlbums(@PathVariable(value="userId") long id){
 		return this.albumService.getAllAlbums(id);
+	}
+	
+	@RequestMapping(value="/api/album/{albumId}/details",method=RequestMethod.GET)
+	public PhotoAlbumDto sendAlbumDto(@PathVariable(value="albumId") Long albumId){
+		return this.albumService.getAlbumById(albumId);
 	}
 
 }

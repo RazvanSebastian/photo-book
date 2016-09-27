@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.DTO.UserDTO;
-import com.repository.model.User;
 import com.service.UserDetailsService;
 
 

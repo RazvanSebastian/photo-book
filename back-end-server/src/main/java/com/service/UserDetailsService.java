@@ -16,12 +16,20 @@ import com.entity.DTO.UserDTO;
 import com.repository.model.User;
 import com.repository.model.UserRole;
 import com.repository.repository.UserRepository;
+import com.service.local.BlobString;
+import com.service.local.ImageService;
 
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService{
 
 	@Autowired
 	private UserRepository userRepoistory;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private BlobString converter;
 	
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 	
@@ -34,9 +42,9 @@ public class UserDetailsService implements org.springframework.security.core.use
 		newUser.setBirthDay(user.getBirthDay());
 		//image verification and all other data in
 		this.validatorInfo(user);
-		this.imageVerification(user.getAvatar());
+		this.imageService.imageVerification(user.getAvatar());
 		//Convert to blob
-		newUser.setAvatar(this.convertToBlob(user.getAvatar()));
+		newUser.setAvatar(this.converter.convertStringToBlob(user.getAvatar()));
 		newUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		newUser.grantRole(UserRole.USER);
 		this.userRepoistory.save(newUser);
@@ -57,14 +65,6 @@ public class UserDetailsService implements org.springframework.security.core.use
 			throw new Exception("The email has invalid pattern!");
 	}
 	
-	private void imageVerification(String image) throws Exception{
-		if(!(image.substring(11, 15).equals("jpeg") || 
-				image.substring(11, 14).equals("png") || image.substring(11, 14).equals("jpg")))
-			throw new Exception("Wrong format of image!");
-		if(image.length()>=150000)
-			throw new Exception("Image choosed has too big size!");
-	}
-	
 	public User findByEmail(String email){
 		return this.userRepoistory.findByEmail(email);
 	}
@@ -77,17 +77,5 @@ public class UserDetailsService implements org.springframework.security.core.use
         }
         detailsChecker.check(user);
         return user;
-	}
-	
-	private Blob convertToBlob(String image){
-		byte[] byteArray = image.getBytes();
-		try {
-			Blob blob = new javax.sql.rowset.serial.SerialBlob(byteArray);
-			return blob;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
 	}
 }
