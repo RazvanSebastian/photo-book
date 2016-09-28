@@ -24,6 +24,18 @@ public class ImageService {
 			return;
 	}
 	
+	public void newPhotoVerification(String image) throws Exception{
+		if(!image.equals("")){
+			if(!(image.substring(11, 15).equals("jpeg") || 
+					image.substring(11, 14).equals("png") || image.substring(11, 14).equals("jpg")))
+				throw new Exception("Wrong format of image!");
+			if(image.length()>=3500000)
+				throw new Exception("Image choosed has too big size ( max size 3MB!");
+			}
+			else
+				throw new Exception("You must chose an image!");
+	}
+	
 	public PhotoAlbumDto convertToDto(PhotoAlbum album){
 		PhotoAlbumDto dtoAlbum=new PhotoAlbumDto();
 		dtoAlbum.setId(album.getId());

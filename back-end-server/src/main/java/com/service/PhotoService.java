@@ -44,7 +44,7 @@ public class PhotoService {
 	public void savePhoto(Long idAlbum,PhotoDto newPhoto) throws Exception{
 		Photo photo=new Photo();
 		this.checkInfo(newPhoto);
-		this.imageService.imageVerification(newPhoto.getImage());
+		this.imageService.newPhotoVerification(newPhoto.getImage());
 		photo.setName(newPhoto.getName());
 		photo.setCategory(this.albumRepository.findById(idAlbum).getCategory());
 		photo.setDescription(newPhoto.getDescription());

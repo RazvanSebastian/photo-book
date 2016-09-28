@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.entity.DTO.PhotoAlbumDto;
+import com.repository.model.Photo;
 import com.repository.model.PhotoAlbum;
 import com.repository.repository.PhotoAlbumRepository;
+import com.repository.repository.PhotoRepository;
 import com.repository.repository.UserRepository;
 import com.service.local.BlobString;
 import com.service.local.ImageService;
@@ -25,7 +27,8 @@ public class PhotoAlbumService {
 	 private BlobString blobStringConverter;
 	@Autowired
 	 private ImageService imageService;
-	
+	@Autowired
+	private PhotoRepository photoRepository;
 	/*
 	 * Save new album
 	 * */
@@ -36,10 +39,15 @@ public class PhotoAlbumService {
 		album.setDescription(photoAlbum.getDescription());
 		album.setCategory(photoAlbum.getCategory());
 		album.setDate(new Date());
-		this.imageService.imageVerification(photoAlbum.getCoverImage());
+		this.imageService.newPhotoVerification(photoAlbum.getCoverImage());
 		album.setCoverImage(this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage()));
 		album.setUser(this.userRepostiroy.findById(userId));
 		this.albumRepository.save(album);
+		
+		this.photoRepository.save(new Photo("Cover image",
+				photoAlbum.getDescription(),
+				photoAlbum.getCategory(),(long) 0,5,new Date(),
+				this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage())));
 	}
 	
 	private void checkAlbumDetails(PhotoAlbumDto album) throws Exception{
