@@ -62,4 +62,8 @@ public class PhotoService {
 		if(newPhoto.getImage().equals(""))
 			throw new Exception("You must chose an image!");
 	}
+	
+	public void deletePhotoById(Long id){
+		this.photoRepository.delete(this.photoRepository.findById(id));
+	}
 }

@@ -1,5 +1,6 @@
 package com.repository.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,7 @@ public interface PhotoAlbumRepository extends JpaRepository<PhotoAlbum,Long>{
 	List<PhotoAlbum> findByUserOrderByDateDesc(User user);
 	
 	PhotoAlbum findById(Long id);
+	
+	PhotoAlbum findByDate(Date date);
+	
 }

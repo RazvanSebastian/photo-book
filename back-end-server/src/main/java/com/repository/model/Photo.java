@@ -77,6 +77,23 @@ public class Photo {
 	}
 	
 	
+	
+	
+	public Photo( PhotoAlbum album, String name, String description, String category, Long visualisations,
+			double rating, Date date, Blob image) {
+		this.album = album;
+		this.name = name;
+		this.description = description;
+		this.category = category;
+		this.visualisations = visualisations;
+		this.rating = rating;
+		this.date = date;
+		this.image = image;
+	}
+
+
+
+
 	public PhotoAlbum getAlbum() {
 		return album;
 	}

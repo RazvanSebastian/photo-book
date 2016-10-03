@@ -41,6 +41,11 @@ public class PhotoController {
 			e.printStackTrace();
 			return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
-		
+	}
+	
+	@RequestMapping(value="/api/my-album/delete-photo/{idPhoto}",method=RequestMethod.DELETE)
+	public ResponseEntity<String> deletePhoto(@PathVariable(value="idPhoto") Long idPhoto){
+		this.photoService.deletePhotoById(idPhoto);
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }

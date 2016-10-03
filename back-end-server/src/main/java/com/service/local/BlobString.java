@@ -1,19 +1,26 @@
 package com.service.local;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 
 import javax.sql.rowset.serial.SerialBlob;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BlobString {
 	
+	@Autowired
+	private ImageService imageService;
+	
 	public Blob convertStringToBlob(String image){
 		byte[] byteArray = image.getBytes();
+		this.imageService.saveImage(byteArray);
 		try {
-			Blob blob = new javax.sql.rowset.serial.SerialBlob(byteArray);
+			Blob blob = new javax.sql.rowset.serial.SerialBlob( byteArray);
 			return blob;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -39,6 +46,7 @@ public class BlobString {
 			return s;
 		} else
 			return "";
+		
 	}
 
 }

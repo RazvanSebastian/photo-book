@@ -35,16 +35,12 @@ public class UserDetailsService implements org.springframework.security.core.use
 	
 	public void saveUser(UserDTO user) throws Exception {
 		User newUser=new User();
+		this.validatorInfo(user);
 		newUser.setEmail(user.getEmail());
 		newUser.setFirstName(user.getFirstName());
 		newUser.setLastName(user.getLastName());
 		newUser.setPassword(user.getPassword());
 		newUser.setBirthDay(user.getBirthDay());
-		//image verification and all other data in
-		this.validatorInfo(user);
-		this.imageService.imageVerification(user.getAvatar());
-		//Convert to blob
-		newUser.setAvatar(this.converter.convertStringToBlob(user.getAvatar()));
 		newUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		newUser.grantRole(UserRole.USER);
 		this.userRepoistory.save(newUser);

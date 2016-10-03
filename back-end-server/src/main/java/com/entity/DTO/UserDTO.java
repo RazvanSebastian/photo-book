@@ -9,12 +9,21 @@ public class UserDTO {
 	private String firstName;	
 	private String lastName;	
 	private Date birthDay;
-	private String avatar;
 	
 	public UserDTO(){
 		
 	}
 	
+	public UserDTO(String email, String password, String firstName, String lastName, Date birthDay) {;
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDay = birthDay;
+	}
+
+
+
 	public UserDTO(Long id, String email, String password, String firstName, String lastName, Date birthDay,
 			String avatar) {
 		this.id = id;
@@ -23,7 +32,6 @@ public class UserDTO {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDay = birthDay;
-		this.avatar = avatar;
 	}
 	public Long getId() {
 		return id;
@@ -61,13 +69,5 @@ public class UserDTO {
 	public void setBirthDay(Date birthDay) {
 		this.birthDay = birthDay;
 	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-	
-	
 	
 }

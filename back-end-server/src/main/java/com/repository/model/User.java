@@ -80,7 +80,6 @@ public class User implements UserDetails {
 	@Transient
 	private String newPassword;
 
-	private Blob avatar;
 
 	public User() {
 	}
@@ -95,24 +94,21 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public User(String email, String password, String firstName, String lastName, Date birthDay, Blob avatar) {
+	public User(String email, String password, String firstName, String lastName, Date birthDay) {
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDay = birthDay;
-		this.avatar = avatar;
 	}
 
-	public User(Long id, String email, String password, String firstName, String lastName, Date birthDay,
-			Blob avatar) {
+	public User(Long id, String email, String password, String firstName, String lastName, Date birthDay) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDay = birthDay;
-		this.avatar = avatar;
 	}
 	
 
@@ -154,14 +150,6 @@ public class User implements UserDetails {
 
 	public void setBirthDay(Date birthDay) {
 		this.birthDay = birthDay;
-	}
-
-	public Blob getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(Blob avatar) {
-		this.avatar = avatar;
 	}
 
 	public void setAuthorities(Set<UserAuthority> authorities) {

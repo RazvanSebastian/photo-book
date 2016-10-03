@@ -38,16 +38,18 @@ public class PhotoAlbumService {
 		album.setName(photoAlbum.getName());
 		album.setDescription(photoAlbum.getDescription());
 		album.setCategory(photoAlbum.getCategory());
-		album.setDate(new Date());
+		album.setDate(photoAlbum.getDate());
 		this.imageService.newPhotoVerification(photoAlbum.getCoverImage());
 		album.setCoverImage(this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage()));
 		album.setUser(this.userRepostiroy.findById(userId));
-		this.albumRepository.save(album);
+		Long albumId=this.albumRepository.save(album).getId();
 		
-		this.photoRepository.save(new Photo("Cover image",
+		Photo photoCover=new Photo(this.albumRepository.findById(albumId),
+				"Cover image",				
 				photoAlbum.getDescription(),
-				photoAlbum.getCategory(),(long) 0,5,new Date(),
-				this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage())));
+				photoAlbum.getCategory(),(long) 0,5,photoAlbum.getDate(),
+				this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage()));
+		this.photoRepository.save(photoCover);
 	}
 	
 	private void checkAlbumDetails(PhotoAlbumDto album) throws Exception{

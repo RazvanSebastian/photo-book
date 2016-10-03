@@ -55,6 +55,8 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				//add new photo
 				.antMatchers(HttpMethod.POST,"/api/my-album/*/new-photo").permitAll()
 				
+				.antMatchers(HttpMethod.DELETE,"/api/my-album/delete-photo/*").permitAll()
+				
 				
 				
 				

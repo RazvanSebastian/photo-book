@@ -9,4 +9,6 @@ import com.repository.model.PhotoAlbum;
 
 public interface PhotoRepository extends JpaRepository<Photo,Long>{
 	List<Photo> findByAlbumOrderByDateDesc(PhotoAlbum album);
+	
+	Photo findById(Long id);
 }
