@@ -17,6 +17,8 @@ export class PhotosComponent implements OnInit {
   myAlbum: PhotoAlbum;
   photoGallery: Array<Photo>;
   id: any;
+  photoSelected:any;
+  workaround:boolean;
 
   constructor(private route: ActivatedRoute, private router: Router, private _photoService: PhotoService, private _albumService: AlbumService) {
     this.photoGallery = new Array<Photo>();
@@ -68,6 +70,20 @@ export class PhotosComponent implements OnInit {
   // when client doing click on image with +(new photo) navigate to new-photo componenet to add new photo
   onClickNewPhoto() {
     this.router.navigate(['my-album/', this.id, '/new-photo'])
+  }
+
+  onZoom(photo){
+    this.photoSelected=photo;
+  }
+
+  //dELETE METHOD
+  onDelete(idPhoto){
+    this._photoService.deletePhotoSelected(idPhoto).subscribe(
+      data =>{
+        this.ngOnInit();
+      },
+      err => console.log(err)
+    );
   }
 
 }

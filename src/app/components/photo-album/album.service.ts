@@ -37,4 +37,8 @@ export class AlbumService {
     let options = new RequestOptions({ headers: headers })
     return this._http.get("http://localhost:8080/api/"+"album/"+albumId+"/details",headers);
   }
+
+  deleteAlbum(albumId){
+    return this._http.delete("http://localhost:8080/api/"+"album-collection/delete-album/"+albumId);
+  }
 }

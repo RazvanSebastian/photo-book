@@ -3,24 +3,24 @@
 
 <div class="form-group">
   <label for="usr">Name of album:</label>
-  <input [(ngModel)]="newPhotoAlbum.name" type="text" class="form-control" id="usr">
+  <input [(ngModel)]="newPhotoAlbum.name" type="text" class="form-control" id="usr" placeholder="Album name">
 </div>
 
 
 <div class="form-group">
   <label for="comment">Write a description about album:</label>
-  <textarea [(ngModel)]="newPhotoAlbum.description" class="form-control" rows="5" id="comment"></textarea>
+  <textarea [(ngModel)]="newPhotoAlbum.description" class="form-control" rows="5" id="comment" placeholder="Some informations about album ; photo type:home,nature,abstract ; places: Cluj-Napoca ; friends  )"></textarea>
 </div>
 
 <div class="form-group">
 <label for="usr">Category:</label>
-<input  [(ngModel)]="newPhotoAlbum.category" type="text">
+<input  [(ngModel)]="newPhotoAlbum.category" type="text" placeholder="category(ex:home)">
 </div>
 
 <div class="form-group">
   <label for="usr">Cover image (Optional):</label> <input type="file" id="exampleInputFile" (change)="attachFile($event)">
   <br>
-  <img src="{{imageSrc}}" height="120" weight="240" alt="Image preview...">
+  <img src="{{imageSrc}}" height="200" weight="250" alt="Image preview...">
 </div>
 
 <div>

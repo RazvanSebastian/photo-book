@@ -1,0 +1,35 @@
+<div style="padding-bottom: 120px; margin-top: 260px;">
+
+  <div class="row" >
+    <div class="col-md-4">
+      <h4> Category: </h4>
+      <input [ngModel]="category" type="text" placeholder="Category to search" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+      <h4> Time: </h4>
+      <select class="form-control" [ngModel]="date">
+        <option></option>
+        <option value="today">Today</option>
+        <option value="week">This week</option>
+        <option value="month">This mounth</option>
+        <option value="year">This year</option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <div class="input-group" style="padding-top: 37px;">
+        <div class="input-group-btn">
+          <button click="onSearch()" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="glyphicon glyphicon-search"></span></button>
+        </div>
+        <!-- /btn-group -->
+        <input [ngModel]="search" type="text" class="form-control" aria-label="..." placeholder="Search">
+      </div>
+      <!-- /input-group -->
+    </div>
+    <!-- /.col-lg-6 -->
+  </div>
+  <!-- /.row -->
+
+
+</div>

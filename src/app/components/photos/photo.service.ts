@@ -3,6 +3,7 @@ import { Http, Headers, HTTP_PROVIDERS, RequestOptions,Response } from "@angular
 
 export class Photo{
   constructor(
+    public id:number,
     public name:string,
     public description:string,
     public category:string,
@@ -28,5 +29,9 @@ export class PhotoService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers })
       return this._http.get("http://localhost:8080/api/"+"my-album/"+idAlbum+"/client-photos",headers);
+  }
+
+  deletePhotoSelected(idPhoto){
+    return this._http.delete("http://localhost:8080/api/"+"my-album/delete-photo/"+idPhoto);
   }
 }

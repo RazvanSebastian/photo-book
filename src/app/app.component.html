@@ -78,8 +78,7 @@
             <ul class="nav navbar-nav">
              <li><a [routerLink]="['account/',userId,'/new-album']"><i class="glyphicon glyphicon-edit"></i> Create new album </a></li>
              <li><a [routerLink]="['account/',userId,'/my-collection']"><i class="glyphicon glyphicon-list"></i> My albums </a></li>
-              <li><a href="editors.html"><i class="glyphicon glyphicon-plus-sign"></i> Add photo </a></li>
-             <li><a href="editors.html"><i class="glyphicon glyphicon-search"></i> Seach photo </a></li>
+             <li><a [routerLink]="['search-photos']"><i class="glyphicon glyphicon-search"></i> Seach photo </a></li>
 
             </ul>
           </div>

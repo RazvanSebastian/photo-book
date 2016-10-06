@@ -1,0 +1,15 @@
+.opacity {
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
+.opacity:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+
+.delete-button{
+  border: 0px currentColor; border-image: none; width: 85px; height: 15px; padding-bottom: 0px;
+  margin-left: 250px;
+  color:grey;
+}

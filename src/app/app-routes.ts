@@ -9,6 +9,7 @@ import {PhotoAlbumComponent } from "./components/photo-album/photo-album.compone
 import { AlbumCollectionComponent } from "./components/album-collection/album-collection.component";
 import { PhotosComponent } from "./components/photos/photos.component";
 import {NewPhotoComponent} from "./components/new-photo/new-photo.component";
+import { SearchPhotoComponent } from "./components/search-photo/search-photo.component"
 //LoginGuard imported to secure my routes
 import { LoginGuard } from "./components/global/LoginGuard.service";
 
@@ -19,9 +20,13 @@ export const APP_ROUTES = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'account/:id/new-album', component: PhotoAlbumComponent, canActivate: [LoginGuard] },
+
   { path: 'account/:id/my-collection', component: AlbumCollectionComponent, canActivate: [LoginGuard] },
+  { path: 'account/my-collection/refresh', component: AlbumCollectionComponent, canActivate: [LoginGuard] },
+
   { path: 'my-collection/:id/photos', component: PhotosComponent, canActivate: [LoginGuard] },
   { path: 'my-album/:id/new-photo', component: NewPhotoComponent, canActivate: [LoginGuard] },
+  {path: 'search-photos',component: SearchPhotoComponent, canActivate: [LoginGuard] },
   { path: '', component: HomeComponent, useAsDefault: true }
 ];
 

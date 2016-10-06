@@ -9,10 +9,15 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  "ng2-dropdown": "node_modules/ng2-dropdown"
 };
 
 /** User packages configuration. */
 const packages: any = {
+"ng2-dropdown": {
+   "main": "index.js",
+    "defaultExtension": "js" 
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +50,7 @@ const barrels: string[] = [
   'app/components/album-collection',
   'app/components/photos',
   'app/components/new-photo',
+  'app/components/search-photo',
   /** @cli-barrel */
 ];
 

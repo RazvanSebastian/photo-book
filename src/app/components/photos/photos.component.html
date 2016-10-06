@@ -1,15 +1,15 @@
 <div class="container" style="padding-bottom: 120px; margin-top: 260px;">
-    <hr>
-    <div class="row">
+  <hr>
+  <div class="row">
     <div>
       <h1><u>{{myAlbum.name}}</u></h1>
       <p>Created at
-          <span>{{myAlbum.date | date:"MM/dd/yyyy"}}</span><br>
-        </p>
-      <div  [ngClass]="['well' , 'surroundingImage']">
+        <span>{{myAlbum.date | date:"MM/dd/yyyy"}}</span><br>
+      </p>
+      <div [ngClass]="['well' , 'surroundingImage']">
         <img class="thumbnail img-responsive" style="width: 250px; height: 250px;" alt="Bootstrap template" src="{{myAlbum.coverImage}}" />
       </div>
-      <div >
+      <div>
         <h4><u>Summary</u></h4>
         <p><i>{{myAlbum.description}}</i></p>
       </div>
@@ -18,19 +18,49 @@
 
   <hr>
 
-  <div class="col-md-4" (click)="onClickNewPhoto()">
+  <div [ngClass]="['opacity','col-md-4']" (click)="onClickNewPhoto()">
     <div class="well">
       <img class="thumbnail img-responsive" alt="Bootstrap template" src="app/images/new-photo.png" />
-      <p>add new photo </p>
     </div>
   </div>
 
-    <div *ngFor="let photo of photoGallery; let i = index">
-      <div class="col-md-4">
-        <div class="well">
-          <img class="thumbnail img-responsive" alt="Bootstrap template" src="{{photo.image}}" />
+  <div *ngFor="let photo of photoGallery; let i = index">
+    <div class="col-md-4">
+      <div class="well">
+        <img class="thumbnail img-responsive" alt="Bootstrap template" src="{{photo.image}}" />
+        <!-- Menu for images -->
+        <div style="align:center;">
+          <button class="opacity" (click)="onZoom(photo.image)" type="submit" style="border:0px;" data-toggle="modal" data-target="#myModal">
+            <span aria-hidden="true" class="glyphicon glyphicon-zoom-in"></span>Zoom
+          </button>
+
+          <button class="opacity"  type="submit" style="border:0px;">
+            <span aria-hidden="true" class="glyphicon glyphicon-download"></span>Download
+          </button>
+
+          <button class="opacity"  (click)="onDelete(photo.id)" type="submit" style="border:0px;">
+            <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>Delete
+          </button>
         </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" >
+                <div class="modal-body">
+                  <img class="thumbnail img-responsive" alt="Bootstrap template" src="{{photoSelected}}" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
       </div>
     </div>
+  </div>
+
+
 
 </div>

@@ -21,7 +21,7 @@ export class NewPhotoComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.newPhoto=new Photo("name","description","category",0,0,new Date,'');
+    this.newPhoto=new Photo(1,"","","",0,0,new Date,'');
     this.route.params.forEach((params: Params) => {
       this.albumId = +params['id']; // (+) converts string 'id' to a number
     });
@@ -29,6 +29,7 @@ export class NewPhotoComponent implements OnInit {
 
   onSucces(data){
     this.status=true;
+    this.router.navigateByUrl("my-collection/"+this.albumId+"/photos");
   }
   onFail(err){
     console.log(err);
@@ -46,7 +47,6 @@ export class NewPhotoComponent implements OnInit {
   attachFile(event) {
     var reader = new FileReader();
     let _self = this;
-    _self.imageSrc = reader.result;
 
     reader.onload = function(e) {
       _self.imageSrc = reader.result;

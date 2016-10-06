@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   constructor(private _registerService: RegistrationService, private _router: Router) { }
 
   ngOnInit() {
-    this.user = new User("", "", "", "", this.date, "");
+    this.user = new User("", "", "", "", this.date);
   }
 
   onRegisterSucces(data) {
@@ -63,20 +63,20 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  attachFile(event) {
-
-    var reader = new FileReader();
-    let _self = this;
-    _self.imageSrc = reader.result;
-
-    reader.onload = function(e) {
-      _self.imageSrc = reader.result;
-        console.log(reader.result);
-      _self.user.avatar=reader.result;
-    };
-
-    console.log(this.user.avatar);
-    reader.readAsDataURL(event.target.files[0]);
-  }
+  // attachFile(event) {
+  // 
+  //   var reader = new FileReader();
+  //   let _self = this;
+  //   _self.imageSrc = reader.result;
+  //
+  //   reader.onload = function(e) {
+  //     _self.imageSrc = reader.result;
+  //       console.log(reader.result);
+  //     _self.user.avatar=reader.result;
+  //   };
+  //
+  //   console.log(this.user.avatar);
+  //   reader.readAsDataURL(event.target.files[0]);
+  // }
 
 }

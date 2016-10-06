@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService,PhotoAlbum } from "../../components/photo-album/album.service";
 import { LocalUserService } from "../global/local-service.service";
 import { Photo } from "../photos/photo.service";
-import { Router } from "@angular/router";
+import { Router,ActivatedRoute ,Params} from "@angular/router";
 
 @Component({
   moduleId: module.id,
@@ -15,6 +15,9 @@ export class AlbumCollectionComponent implements OnInit {
 
   albumGallery: Array<PhotoAlbum>;
   length:any;
+  albumIdToDelete:number;
+  active:boolean;
+  userId:number;
 
   constructor(private _albumService:AlbumService, private _localService:LocalUserService, private _router:Router) {
     this.albumGallery=new Array<PhotoAlbum>();
@@ -22,7 +25,11 @@ export class AlbumCollectionComponent implements OnInit {
 
   ngOnInit() {
     this.onReceiveAlbums();
-      this._localService.initiateByRememberMe();
+    this._localService.initiateByRememberMe();
+  }
+
+  onModalClose() {
+    this._router.navigateByUrl("/account/my-collection/refresh");
   }
 
   onSucces(data){
@@ -44,6 +51,17 @@ export class AlbumCollectionComponent implements OnInit {
 
   moveToPhotoGallery(album){
     this._router.navigate(['my-collection/'+album.id+'/photos']);
+  }
+
+  onAlbumSelected(id){
+    this.albumIdToDelete=id;
+  }
+
+  onDeleteAlbum(){
+    this._albumService.deleteAlbum(this.albumIdToDelete).subscribe(
+      data=>{this.onModalClose()},
+      err=>console.log(err)
+    );
   }
 
 
