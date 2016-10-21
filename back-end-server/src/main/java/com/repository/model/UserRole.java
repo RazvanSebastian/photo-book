@@ -1,16 +1,22 @@
 package com.repository.model;
 
 public enum UserRole {
-	USER, ADMIN;
+
+	USER,
+
+	ADMIN;
 
 	public UserAuthority asAuthorityFor(final User user) {
-	
 		final UserAuthority authority = new UserAuthority();
 		authority.setAuthority("ROLE_" + toString());
 		authority.setUser(user);
 		return authority;
 	}
 
+	/**
+	 * @param authority
+	 * @return {@link UserRole}
+	 */
 	public static UserRole valueOf(final UserAuthority authority) {
 		switch (authority.getAuthority()) {
 		case "ROLE_USER":

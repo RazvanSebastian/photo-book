@@ -36,12 +36,13 @@ public class StatelessAuthentication {
 					addUser("user", "user");
 			}
 
-			private void addUser(String email, String password) {
+			private void addUser(String username, String password) {
 				User user = new User();
 				user.setBirthDay(new Date());
 				user.setFirstName("razvan");
 				user.setLastName("sebastian");
-				user.setEmail(email);
+				user.setEmail(username);
+				user.setUsername(username);
 				user.setPassword(new BCryptPasswordEncoder().encode(password));
 				user.grantRole(UserRole.ADMIN);
 				user.grantRole(UserRole.USER);

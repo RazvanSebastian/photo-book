@@ -1,7 +1,7 @@
 package com.service;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +78,23 @@ public class PhotoAlbumService {
 	public PhotoAlbumDto getAlbumById(long id){
 		return this.imageService.convertToDto(this.albumRepository.findById(id));
 	}
+	
+	/*
+	 * Delete album (lose all photos)	
+	 */
+	
+	public void deleteAlbumById(Long id){
+		this.albumRepository.delete(id);
+	}
+	
+	/*
+	 Get all categories distinct
+	 * */
+	public List<String> receviceCategory(){
+		List<String> categories=new ArrayList<>();
+		for(String photoCategory:this.albumRepository.findAllCategoryDistinct())
+			categories.add(photoCategory);
+		return categories;
+	}
+	
 }

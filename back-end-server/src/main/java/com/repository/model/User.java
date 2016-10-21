@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -46,6 +47,11 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@OneToMany(mappedBy="user",fetch=FetchType.LAZY)
 	private Set<PhotoAlbum> photoAlbums;
+	
+	@Column(unique = true)
+	@NotNull
+	@Size(min = 4, max = 30)
+	private String username;
 	
 	@NotNull
 	private String email;
@@ -84,13 +90,13 @@ public class User implements UserDetails {
 	public User() {
 	}
 	
-	public User(String email, Date expires) {
-		this.email = email;
+	public User(String username, Date expires) {
+		this.username = username;
 		this.expires = expires.getTime();
 	}
 
-	public User(String email, String password) {
-		this.email = email;
+	public User(String username, String password) {
+		this.username = username;
 		this.password = password;
 	}
 
@@ -111,6 +117,21 @@ public class User implements UserDetails {
 		this.birthDay = birthDay;
 	}
 	
+	public User(Long id, String username, String email, String password, String firstName, String lastName,
+			Date birthDay) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDay = birthDay;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public Set<PhotoAlbum> getPhotoAlbums() {
 		return photoAlbums;
@@ -266,6 +287,6 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.email;
+		return this.username;
 	}
 }

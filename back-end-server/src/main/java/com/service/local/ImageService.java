@@ -1,6 +1,9 @@
 package com.service.local;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -15,12 +18,20 @@ import java.awt.image.WritableRaster;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -30,6 +41,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.entity.DTO.PhotoAlbumDto;
+import com.entity.DTO.PhotoDto;
+import com.repository.model.Photo;
 import com.repository.model.PhotoAlbum;
 
 @Service
@@ -70,13 +83,35 @@ public class ImageService {
 		dtoAlbum.setCoverImage(this.converte.convertBlobToString(album.getCoverImage()));
 		return dtoAlbum;
 	}
+	
+	public List<PhotoDto> convertPhotoToDto(List<Photo> photoList){
+		List<PhotoDto> dtoList= new ArrayList<PhotoDto>();
+		String image;
+		for(Photo photo : photoList){
+			if(this.converte.convertBlobToString(photo.getImage()).length()>50000)
+				image=this.resizeImageWidthAndHeight(photo.getImage());
+			else
+				image=this.converter.convertBlobToString(photo.getImage());
+			dtoList.add(new PhotoDto(
+					photo.getId(),
+					photo.getName(),
+					photo.getDescription(),
+					photo.getCategory(),
+					photo.getVisualisations(),
+					photo.getRating(),
+					photo.getDate(),
+					image
+			));
+		}
+		return dtoList;
+	}
 
 	// ###########################################################################################
 
 	/*
 	 * Extract type
 	 */
-	private String getImageFormat(String image) {
+	public String getImageFormat(String image) {
 		if (image.substring(11, 14).equals("jpg"))
 			return image.substring(11, 14);
 		if (image.substring(11, 15).equals("jpeg"))
@@ -85,63 +120,6 @@ public class ImageService {
 			return image.substring(11, 14);
 		return null;
 	}
-
-	// /* Tools methods */
-	//
-	// private static BufferedImage convertByteArrayToBufferedImage(byte[]
-	// byteArray,String type) {
-	//
-	//// DataBufferByte buffer = new DataBufferByte(byteArray,
-	// byteArray.length);
-	////
-	//// ColorModel cm = new
-	// ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]
-	// { 8, 8, 8 },
-	//// false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-	////
-	//// BufferedImage image= new BufferedImage(cm,
-	//// Raster.createInterleavedRaster(buffer, 200, 200, 200 * 3, 3,
-	//// new int[] { 0, 1, 2 }, null), false, null);
-	//
-	// final ImageReader reader =
-	// ImageIO.getImageReadersByFormatName(type).next();
-	// final InputStream is = new ByteArrayInputStream(byteArray);
-	// try {
-	// final ImageInputStream imageInput = ImageIO.createImageInputStream(is);
-	// reader.setInput(imageInput);
-	// final BufferedImage image = reader.read(0);
-	// is.close();
-	// return image;
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// return null;
-	// }
-	//
-	// private byte[] convertBufferedImageToByteArray(BufferedImage image,
-	// String type) {
-	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	// try {
-	// ImageIO.write(image, type, baos);
-	// byte[] bytes = baos.toByteArray();
-	// return bytes;
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// return null;
-	// }
-	//
-	// /*
-	// * Resize image as buffered image
-	// */
-	// public byte[] resizeImage(String imageString, byte[] imageByteArray) {
-	// BufferedImage originalImage =
-	// ImageService.convertByteArrayToBufferedImage(imageByteArray,this.getImageFormat(imageString));
-	// return this.convertBufferedImageToByteArray(originalImage,
-	// this.getImageFormat(imageString));
-	// }
 
 	public void saveImage(byte[] bytes) {
 		OutputStream out = null;
@@ -162,4 +140,68 @@ public class ImageService {
 				}
 		}
 	}
+	
+	/*#########################################
+	NOTE:
+		Resize image 
+		return Buffer
+	##########################################*/
+	@Autowired
+	private BlobString converter;
+	
+	private BufferedImage convertBlobToBufferedImage(Blob blobImage){
+		String imageCode=this.converter.convertBlobToString(blobImage);
+		
+		//making one split from first , (from there is starting the image
+		String base64Image = imageCode.split(",")[1];
+		// Convert the image code to bytes.
+		byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			return bufferedImage;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+	}
+	
+	private static String imgToBase64String(final RenderedImage img, final String formatName) {
+	    final ByteArrayOutputStream os = new ByteArrayOutputStream();
+	    try {
+	        ImageIO.write(img, formatName, Base64.getEncoder().wrap(os));
+	        return os.toString(StandardCharsets.ISO_8859_1.name());
+	    } catch (final IOException ioe) {
+	        throw new UncheckedIOException(ioe);
+	    }
+	}
+	
+	
+	private static final int IMG_WIDTH=625;
+	private static final int IMG_HEIGHT=576;
+	
+	private BufferedImage resizeImageWithHint(BufferedImage originalImage, int type) {
+
+		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+		g.dispose();
+		g.setComposite(AlphaComposite.Src);
+
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		return resizedImage;
+	}
+	
+	public String resizeImageWidthAndHeight(Blob blobImage){
+		
+		return "data:image/jpeg;base64,"+imgToBase64String(this.resizeImageWithHint
+				(this.convertBlobToBufferedImage(blobImage), BufferedImage.TYPE_INT_ARGB) , "png");
+		
+	}
+	
+	
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class UserDTO {
 	private Long id;	
+	private String username;
 	private String email;	
 	private String password;
 	private String firstName;	
@@ -24,15 +25,27 @@ public class UserDTO {
 
 
 
-	public UserDTO(Long id, String email, String password, String firstName, String lastName, Date birthDay,
-			String avatar) {
+
+	public UserDTO(Long id, String username, String email, String password, String firstName, String lastName,
+			Date birthDay) {
+		super();
 		this.id = id;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDay = birthDay;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public Long getId() {
 		return id;
 	}

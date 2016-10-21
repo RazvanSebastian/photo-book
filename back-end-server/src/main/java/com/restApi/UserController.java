@@ -36,8 +36,8 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value="/api/login", method=RequestMethod.GET)
-	public String send(){
-		return "hi!";
-	}
+//	@RequestMapping(value="/api/login", method=RequestMethod.GET)
+//	public String send(){
+//		return "hi!";
+//	}
 }

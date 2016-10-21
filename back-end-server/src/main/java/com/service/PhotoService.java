@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.repository.repository.PhotoAlbumRepository;
 import com.repository.repository.PhotoRepository;
 import com.service.local.BlobString;
 import com.service.local.ImageService;
+import com.service.local.PaginationService;
 
 @Service
 public class PhotoService {
@@ -25,12 +27,20 @@ public class PhotoService {
 	private BlobString converter;
 	@Autowired
 	private ImageService imageService;
+	@Autowired
+	private PaginationService paginationService;
 	
-	public List<PhotoDto> receivePhotoAlbum(Long id){
-		List<PhotoDto> listToSend=new ArrayList<PhotoDto>();
-		for(Photo photo: this.photoRepository.findByAlbumOrderByDateDesc(this.albumRepository.findById(id)))
-			listToSend.add(this.convertToDto(photo));
-		return listToSend;
+	public String getOriginalPhotoById(Long id){
+		return this.converter.convertBlobToString(this.photoRepository.findById(id).getImage());
+	}
+	
+	public Long numberOfPhotos(Long id){
+		return this.photoRepository.countByAlbum(this.albumRepository.findById(id));
+	}
+	
+	public List<PhotoDto> receivePhotoAlbum(Long id,Integer pageNumber){
+		return this.imageService.convertPhotoToDto(this.paginationService.getPhotosByPage(id, pageNumber));
+		
 	}
 	
 	private PhotoDto convertToDto(Photo photo){
@@ -65,5 +75,71 @@ public class PhotoService {
 	
 	public void deletePhotoById(Long id){
 		this.photoRepository.delete(this.photoRepository.findById(id));
+	}
+	
+	private Date setDate(String date){
+		Date dateTime = new Date();	
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateTime);
+		
+		switch(date){
+		case "today": 
+			cal.add(Calendar.HOUR_OF_DAY, -24);
+			dateTime=cal.getTime();
+			break;
+		case "week":
+			cal.add(Calendar.WEEK_OF_YEAR, -1);
+			dateTime=cal.getTime();
+			break;
+		case "month":
+			cal.add(Calendar.MONTH,-1);
+			dateTime=cal.getTime();
+			break;
+		case "year":
+			cal.add(Calendar.YEAR, -1);
+			dateTime=cal.getTime();
+			break;
+		}
+		return dateTime;
+	}
+	
+	public List<PhotoDto> getPhotoListByCriterium(String category,String date,String search){
+		System.out.println(category+" "+date+" "+search);
+		if(category.equals("") && date.equals("") && search.equals(""))
+			return new ArrayList<PhotoDto>();
+		
+		if(!category.equals("") && date.equals("") && search.equals("")){
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByCategoryOrderByDateDesc(category));
+		}
+		
+		if(category.equals("") && !date.equals("") && search.equals(""))
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByDateAfter(this.setDate(date)));
+		
+		if(category.equals("") && date.equals("") && !search.equals(""))
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByNameContaining(search));
+		
+		//by category and date
+		if(!category.equals("") && !date.equals("") && search.equals(""))
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByCategoryAndDateAfter(category, this.setDate(date)));
+		
+		//by category and name
+		if(!category.equals("") && date.equals("") && !search.equals(""))
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByCategoryAndNameContaining(category, search));
+		
+		//by date and name
+		if(category.equals("") && !date.equals("") && !search.equals(""))
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByNameContainingAndDateAfter(search, this.setDate(date)));
+		
+		//by all
+		if(!category.equals("") && !date.equals("") && !search.equals(""))
+			return this.imageService.convertPhotoToDto(
+					this.photoRepository.findByNameContainingAndCategoryAndDateAfter(search, category, this.setDate(date)));
+		return null;
 	}
 }

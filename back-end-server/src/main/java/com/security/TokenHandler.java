@@ -16,6 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.repository.model.User;
 
 public final class TokenHandler {
+	
+	/*
+	 * Creating the token using base 64 
+	 * and HmacSHA256 
+	 * code and after is mapped using separators
+	 * */
 
 	private static final String HMAC_ALGO = "HmacSHA256";
 	private static final String SEPARATOR = ".";

@@ -23,7 +23,10 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final TokenAuthenticationService tokenAuthenticationService;
 	private final UserDetailsService userDetailsService;
-
+	
+	/*
+	 * Creating a filter object containing URL , token , user details from service and authManager
+	 * */
 	protected StatelessLoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService,
 			UserDetailsService userDetailsService, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(urlMapping));
@@ -35,10 +38,12 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-
+		//from request we are receiving stream data parse to User class
 		final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+		//creating an object of (see next row)
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
 				user.getUsername(), user.getPassword());
+		//if the auth is success will return some details about user (granted roles) using login token which contain user and password
 		return getAuthenticationManager().authenticate(loginToken);
 	}
 

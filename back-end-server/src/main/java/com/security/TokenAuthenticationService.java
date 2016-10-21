@@ -26,18 +26,25 @@ public class TokenAuthenticationService {
 	public TokenAuthenticationService(@Value("${token.secret}") String secret) {
 		tokenHandler = new TokenHandler(DatatypeConverter.parseBase64Binary(secret));
 	}
-
+	
+	//after login I will receivce in response header the token as name of USER_DETAILS
 	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) throws JsonProcessingException {
+		//using User Authentication receive details about user
 		final User user = authentication.getDetails();
 		user.setExpires(System.currentTimeMillis() + TEN_DAYS);
+		//as name of X-AUTH-TOKEN I create one field in header with the token code
 		response.addHeader(AUTH_HEADER_NAME, tokenHandler.createTokenForUser(user));
 		 ObjectMapper mapper = new ObjectMapper();
+		 //as name of USER-DETAILS what am I mapping on front-end i get string map of user details
 		 response.addHeader(USER_DETAILS, mapper.writeValueAsString(user));
 	}
-
+	
+	//get request from front-end server
 	public Authentication getAuthentication(HttpServletRequest request) {
+		//extract from header X-AUTH-TOKEN
 		final String token = request.getHeader(AUTH_HEADER_NAME);
 		if (token != null) {
+			//i parsing the token to user object
 			final User user = tokenHandler.parseUserFromToken(token);
 			if (user != null) {
 				return new UserAuthentication(user);

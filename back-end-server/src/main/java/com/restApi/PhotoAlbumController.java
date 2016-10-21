@@ -46,5 +46,15 @@ public class PhotoAlbumController {
 	public PhotoAlbumDto sendAlbumDto(@PathVariable(value="albumId") Long albumId){
 		return this.albumService.getAlbumById(albumId);
 	}
-
+	
+	@RequestMapping(value="/api/album-collection/delete-album/{albumId}",method=RequestMethod.DELETE)
+	public ResponseEntity<?> deleteAlbum(@PathVariable(value="albumId") Long albumId){
+		this.albumService.deleteAlbumById(albumId);
+		return new ResponseEntity<>(HttpStatus.OK);	
+	}
+	
+	@RequestMapping(value="/api/get-category",method=RequestMethod.GET)
+	public List<String> getCategory(){
+		return this.albumService.receviceCategory();
+	}
 }
