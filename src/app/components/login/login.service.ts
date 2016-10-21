@@ -3,7 +3,7 @@ import { Http, Headers, HTTP_PROVIDERS, RequestOptions,Response} from '@angular/
 
 export class UserLogin{
   constructor(
-    public email:string,
+    public username:string,
     public password:string
   ){}
 }

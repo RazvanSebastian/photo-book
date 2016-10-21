@@ -13,7 +13,6 @@ import { LocalUserService} from "../app/components/global/local-service.service"
   providers: [LocalUserService]
 })
 export class AppComponent implements OnInit {
-
   loginAsUser: boolean=false;
   userId : any;
 
@@ -30,7 +29,8 @@ export class AppComponent implements OnInit {
       this.loginAsUser = false;
   }
 
-  toMyAccount() {
+  toMyAccount(){
+    this._router.navigateByUrl("/my-account");
   }
 
   toSignOut() {

@@ -1,15 +1,21 @@
-<div style="padding-bottom: 120px; margin-top: 260px;">
+<div class="container" style="padding-top: 10% ; padding-bottom:100%;">
 
-  <div class="row" >
+<!-- Search menu -->
+<hr>
+  <div [ngClass]="['row','search-bar']">
     <div class="col-md-4">
       <h4> Category: </h4>
-      <input [ngModel]="category" type="text" placeholder="Category to search" class="form-control">
+      <select class="form-control" [(ngModel)]="category" >
+        <option value=""></option>
+        <option *ngFor="let albumCategory of categories" value="{{albumCategory}}">{{albumCategory}}</option>
+      </select>
+
     </div>
 
     <div class="col-md-4">
       <h4> Time: </h4>
-      <select class="form-control" [ngModel]="date">
-        <option></option>
+      <select class="form-control" [(ngModel)]="date">
+        <option value=""></option>
         <option value="today">Today</option>
         <option value="week">This week</option>
         <option value="month">This mounth</option>
@@ -20,16 +26,51 @@
     <div class="col-md-4">
       <div class="input-group" style="padding-top: 37px;">
         <div class="input-group-btn">
-          <button click="onSearch()" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="glyphicon glyphicon-search"></span></button>
+          <button type="submit" class="btn btn-default dropdown-toggle" (click)="onSearch()" >Search <span class="glyphicon glyphicon-search"></span></button>
         </div>
         <!-- /btn-group -->
-        <input [ngModel]="search" type="text" class="form-control" aria-label="..." placeholder="Search">
+        <input [(ngModel)]="search" type="text" class="form-control" aria-label="..." placeholder="Search">
       </div>
       <!-- /input-group -->
     </div>
     <!-- /.col-lg-6 -->
   </div>
-  <!-- /.row -->
+  <!-- /.search menu -->
 
+  <!-- Loading div -->
+  <div class="loader-position" *ngIf="displayLoader==true">
+  <div class="loader"  ></div>
+  </div>
+
+  <!-- Modal on check inputs false -->
+    <div *ngIf="ErrorMessageIsVisible" class="modal fade show in danger" id="myModal" role="dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Warning!</h4>
+              </div>
+              <div class="modal-body">
+                  <p>You must complete at least one input search field!</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" (click)="hideErrorMsg()">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <!-- Search collection -->
+    <hr>
+      <div style="margin-top: 100px;">
+    <div *ngFor="let photo of photoGallery; let i = index">
+      <div class="col-md-4">
+        <div class="well">
+          <p> {{photo.date | date:"MM/dd/yyyy"}} </p>
+          <img class="thumbnail img-responsive" alt="Bootstrap template" src="{{photo.image}}" />
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

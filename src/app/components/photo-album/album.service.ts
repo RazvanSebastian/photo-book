@@ -19,26 +19,32 @@ export class AlbumService {
   constructor(private _http:Http,private _localService:LocalUserService) { }
 
   createNewAlbum(userId,photoAlbum){
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({ 'Content-Type': 'application/json' , "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
     let options = new RequestOptions({ headers: headers });
-    console.log(userId);
-    console.log(photoAlbum);
     return this._http.post("http://localhost:8080/api/"+"account/"+userId+"/photoAlbum", JSON.stringify(photoAlbum),options);
   }
 
   receviceAllAlbums(userId){
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
     let options = new RequestOptions({ headers: headers })
-    return this._http.get("http://localhost:8080/api/"+"account/"+userId+"/clientAlbums",headers);
+    return this._http.get("http://localhost:8080/api/"+"account/"+userId+"/clientAlbums",options);
   }
 
   receiveAlbum(albumId){
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
     let options = new RequestOptions({ headers: headers })
-    return this._http.get("http://localhost:8080/api/"+"album/"+albumId+"/details",headers);
+    return this._http.get("http://localhost:8080/api/"+"album/"+albumId+"/details",options);
   }
 
   deleteAlbum(albumId){
-    return this._http.delete("http://localhost:8080/api/"+"album-collection/delete-album/"+albumId);
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.delete("http://localhost:8080/api/"+"album-collection/delete-album/"+albumId,options);
+  }
+
+  receviceAllCategories(){
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get("http://localhost:8080/api/get-category",options);
   }
 }

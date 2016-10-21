@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService, PhotoAlbum } from "./album.service";
 import { LocalUserService } from "../global/local-service.service";
 import {Router} from "@angular/router";
+import { RuntimeCompiler} from '@angular/compiler';
 
 @Component({
   moduleId: module.id,
@@ -17,7 +18,8 @@ export class PhotoAlbumComponent implements OnInit {
   status: boolean;
   message: string;
 
-  constructor(private _albumnService: AlbumService, private _localService: LocalUserService,private _router:Router) { }
+  constructor(private _albumnService: AlbumService, private _localService: LocalUserService,private _router:Router,
+  private _runtimeCompiler: RuntimeCompiler) { }
 
   ngOnInit() {
     this.newPhotoAlbum = new PhotoAlbum(1,"", "", "", new Date, "");
@@ -26,7 +28,7 @@ export class PhotoAlbumComponent implements OnInit {
 
   onSaveSucces(data) {
     this.status = true;
-    console.log(data);
+    this._runtimeCompiler.clearCache();
     this._router.navigateByUrl("account/"+this._localService.userId+"/my-collection");
 
   }

@@ -41,7 +41,7 @@
   <div class="navbar-wrapper">
     <div class="container">
 
-      <div class="navbar navbar-default navbar-fixed-top" style="height: 110px" role="navigation" id="top-nav">
+      <div [ngClass]="['nav-bar-position','navbar navbar-default navbar-fixed-top']" role="navigation" id="top-nav">
         <div class="container">
           <div class="navbar-header">
             <!-- Logo Starts -->
@@ -63,10 +63,10 @@
           <div class="navbar-collapse  collapse">
             <ul class="nav navbar-nav navbar-right scroll">
               <li class="active"><a [routerLink]="['/home']">Home</a></li>
-              <li *ngIf="loginAsUser==false"> <a [routerLink]="['/login']">Login</a></li>
-              <li *ngIf="loginAsUser==false"> <a [routerLink]="['/register']">Register</a></li>
-              <li *ngIf="loginAsUser==true" style="padding-top: 35px ;padding-left: 5px;" >MyAccount</li>
-              <li *ngIf="loginAsUser==true" (click)="toSignOut()"><a>SignOut</a></li>
+              <li class="active" *ngIf="loginAsUser==false"> <a [routerLink]="['/login']">Login</a></li>
+              <li class="active" *ngIf="loginAsUser==false"> <a [routerLink]="['/register']">Register</a></li>
+              <li class="active" *ngIf="loginAsUser==true" (click)="toMyAccount()"><a>Account</a></li>
+              <li class="active" *ngIf="loginAsUser==true" (click)="toSignOut()"><a>SignOut</a></li>
             </ul>
           </div>
           <!-- #Nav Ends -->

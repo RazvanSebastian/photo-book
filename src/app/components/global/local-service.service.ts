@@ -1,10 +1,13 @@
 import { Injectable, Inject  } from '@angular/core';
 import { Http, Headers, HTTP_PROVIDERS, RequestOptions } from '@angular/http';
 
+
+
 @Injectable()
 export class LocalUserService {
   public tokenName: string = "X-AUTH-TOKEN";
   public headerTokenName: string = "X-AUTH-TOKEN";
+  public username:string;
   public email: string;
   public authority: any = [];
   public token: string;
@@ -21,6 +24,7 @@ export class LocalUserService {
     else {
       this.clearData();
     }
+    this.username=localStorage.getItem("username");
     this.userId = localStorage.getItem("userId");
     this.token = sessionStorage.getItem(this.tokenName);
     this.email = localStorage.getItem("email");
@@ -45,6 +49,9 @@ export class LocalUserService {
 
     this.userId = userDetails.id;
     localStorage.setItem("userId", this.userId);
+
+    this.username=userDetails.username;
+    localStorage.setItem("username", this.username);
 
     this.email = userDetails.email;
     localStorage.setItem("email", this.email);

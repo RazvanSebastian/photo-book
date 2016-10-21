@@ -19,19 +19,45 @@ export class PhotoService {
 
   constructor(private _http:Http) { }
 
+  getFileFromBlob(id){
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get("http://localhost:8080/api/blob/"+id,options);
+  }
+
+  getPageNumber(id){
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get('http://localhost:8080/api/'+'photo-number/album='+id,options);
+  }
+
   saveNewPhoto(idAlbum,photo){
-    let headers = new Headers({'Content-Type': 'application/json'});
+    let headers = new Headers({'Content-Type': 'application/json',"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
     let options=new RequestOptions({headers:headers});
     return this._http.post('http://localhost:8080/api/'+'my-album/'+idAlbum+'/new-photo',JSON.stringify(photo),options);
   }
 
-  getPhotoGallery(idAlbum){
-      let headers = new Headers({ 'Content-Type': 'application/json' });
+  getPhotoGallery(idAlbum,pageNumb){
+      let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")  });
       let options = new RequestOptions({ headers: headers })
-      return this._http.get("http://localhost:8080/api/"+"my-album/"+idAlbum+"/client-photos",headers);
+      return this._http.get("http://localhost:8080/api/"+"my-album/"+idAlbum+"/client-photos/page="+pageNumb,options);
   }
 
   deletePhotoSelected(idPhoto){
-    return this._http.delete("http://localhost:8080/api/"+"my-album/delete-photo/"+idPhoto);
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")  });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.delete("http://localhost:8080/api/"+"my-album/delete-photo/"+idPhoto,options);
+  }
+
+  receiveSearch(category, date, search) {
+    let headers = new Headers({ 'Content-Type': 'application/json' ,"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get('http://localhost:8080/api/' + 'search-photo/category=' + category + '/date=' + date + '/search=' + search,options);
+  }
+
+  getOriginalPhoto(id){
+    let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")  });
+    let options = new RequestOptions({ headers: headers })
+    return this._http.get('http://localhost:8080/api/'+'my-album/view/original-photo='+id,options);
   }
 }

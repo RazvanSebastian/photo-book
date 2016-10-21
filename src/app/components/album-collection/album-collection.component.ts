@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService,PhotoAlbum } from "../../components/photo-album/album.service";
 import { LocalUserService } from "../global/local-service.service";
 import { Photo } from "../photos/photo.service";
-import { Router,ActivatedRoute ,Params} from "@angular/router";
+import { Router,Route,ActivatedRoute ,Params} from "@angular/router";
 
 @Component({
   moduleId: module.id,
@@ -12,11 +12,11 @@ import { Router,ActivatedRoute ,Params} from "@angular/router";
   providers: [AlbumService]
 })
 export class AlbumCollectionComponent implements OnInit {
-
+displayLoader:boolean=true;
   albumGallery: Array<PhotoAlbum>;
   length:any;
   albumIdToDelete:number;
-  active:boolean;
+  changes:boolean=true;
   userId:number;
 
   constructor(private _albumService:AlbumService, private _localService:LocalUserService, private _router:Router) {
@@ -29,17 +29,27 @@ export class AlbumCollectionComponent implements OnInit {
   }
 
   onModalClose() {
-    this._router.navigateByUrl("/account/my-collection/refresh");
+    this.albumGallery.forEach((item,index)=>
+    {
+      if(item.id==this.albumIdToDelete)
+        this.albumGallery.splice(index,1);
+    }
+  );
+    console.log(this.albumGallery);
+     //window.location.reload()
+    var t=true;
+    setTimeout(()=>{ t=false } ,10);
+
   }
 
   onSucces(data){
-    let album:PhotoAlbum;
     //Parsing a JSON to array of album
+    this.albumGallery=new Array<PhotoAlbum>();
     JSON.parse(data.text()).forEach(album => {
     this.albumGallery.push(album);
     });
     this.length=this.albumGallery.length;
-    console.log(this.albumGallery);
+    this.displayLoader=false;
   }
 
   onReceiveAlbums(){
