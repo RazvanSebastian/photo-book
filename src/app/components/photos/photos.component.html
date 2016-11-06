@@ -1,0 +1,113 @@
+
+
+<!--
+NOTE!!!
+I'm using this to import FileSaver in my app  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
+
+<!-- Loading div -->
+<div class="loader-position" *ngIf="displayLoader==true ">
+<div class="loader"  ></div>
+</div>
+
+<div class="container" style="padding-bottom: 120px; margin-top: 260px;" *ngIf="displayLoader==false">
+  <hr>
+  <div class="row">
+    <div>
+      <h1><u>{{myAlbum.name}}</u></h1>
+      <p>Created at
+        <span>{{myAlbum.date | date:"MM/dd/yyyy"}}</span><br>
+      </p>
+      <div [ngClass]="['well' , 'surroundingImage']">
+        <img class="thumbnail img-responsive" style="width: 250px; height: 250px;" alt="Bootstrap template" src="{{myAlbum.coverImage}}" />
+      </div>
+      <div>
+        <h4><u>Summary</u></h4>
+        <p><i>{{myAlbum.description}}</i></p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+<!-- Div containing add photo icon -->
+  <div [ngClass]="['opacity','col-md-4']" (click)="onClickNewPhoto()">
+    <div class="well" style="width: 350px; height: 350px;">
+      <img class="thumbnail img-responsive" alt="Bootstrap template" src="app/images/new-photo.png" />
+    </div>
+  </div>
+
+  <div *ngFor="let photo of storedPages[paginationConfig.currentPage] | paginate: paginationConfig">
+    <!-- Container with photo and menu -->
+    <div class="col-md-4" >
+      <div class="well" style="width: 350px; height: 350px;">
+        <img class="thumbnail img-responsive" alt="Bootstrap template" style="width:340px;height:280px" src="{{photo.image}}" />
+        <!-- Menu for images -->
+        <div style="align:center;">
+          <button class="opacity" (click)="onZoom(photo.name,photo.image,photo.description)" type="submit" style="border:0px;" data-toggle="modal" data-target="#myModalZoom">
+            <span aria-hidden="true" class="glyphicon glyphicon-zoom-in"></span>Zoom
+          </button>
+
+          <button class="opacity" (click)="downloadFile(photo.id,photo.name)"  type="submit" style="border:0px;">
+            <span aria-hidden="true" class="glyphicon glyphicon-download"></span>Download
+          </button>
+
+          <button class="opacity"  (click)="onDelete(photo,photo.id,paginationConfig.currentPage)" type="submit" style="border:0px;" data-toggle="modal" data-target="#myModalDelete">
+            <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- container closed -->
+  </div>
+
+
+
+  <!-- Modal zoom-->
+  <div class="modal fade" id="myModalZoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" >
+        <div class="modal-body">
+          <p><u><b> {{nameZoom}}</b></u></p>
+          <img class="thumbnail img-responsive" alt="Bootstrap template" src="{{photoSelected}}" />
+
+          <p><u><b> Description:</b></u></p>
+          <p> {{descriptionZoom}} </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- close modal zoom -->
+
+  <!-- Modal delete-->
+  <div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" >
+        <div class="modal-body">
+          <p>You are going to delete this photo!Are you sure?</p>
+        </div>
+        <div class="modal-footer">
+          <button (click)="onDeletePhoto()" class="btn btn-default"  type="button"  data-dismiss="modal">
+            <span aria-hidden="true" class="glyphicon glyphicon-ok"></span>Yes
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+          <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>Cancel
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- close modal -->
+
+
+  <!-- Pagination content -->
+  <div class="is-text-centered col-md-12" style="padding-left:40% ; padding-right:40%;">
+  <div>
+    <pagination-controls (pageChange)="changePage($event)"></pagination-controls>
+  </div>
+</div>
+  <!-- end pagination -->
+</div>

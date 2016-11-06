@@ -1,0 +1,41 @@
+<div class="page-content container" >
+  <div class="row">
+    <div class="col-md-5 col-md-offset-4">
+      <div class="login-wrapper">
+        <div class="box" style="margin-top: 90px; border-top-width: 3px;">
+          <div class="content-wrap">
+            <h6>Sign Up</h6>
+            <!-- input field for user  -->
+
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.email" class="form-control" type="text" placeholder="E-mail address">
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.firstName" class="form-control" type="text" placeholder="First name">
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.lastName" class="form-control" type="text" placeholder="Last name">
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.password" class="form-control" type="password" placeholder="Password">
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="secondPassword" class="form-control" type="password" placeholder="Confirm Password">
+            <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.birthDay" class="form-control" type="date"
+             placeholder="Birth day : day/month/year">
+              <!-- Image upload -->
+            <!-- <div class="form-group">
+              <input type="file" id="exampleInputFile" (change)="attachFile($event)">
+              <img src="{{imageSrc}}" height="120" alt="Image preview...">
+            </div> -->
+
+          </div>
+
+          <div *ngIf="validation==false">
+            <p [ngStyle]="{'color': 'red', 'font-weight': 'bold'}"> ***{{validationMessage}}*** </p>
+          </div>
+
+          <div class="action">
+            <a class="btn btn-primary signup" (click)="registerUser()">Sign Up</a>
+          </div>
+
+          <div class="already">
+            <p>Have an account already?</p>
+            <a [routerLink]="['/login']">Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

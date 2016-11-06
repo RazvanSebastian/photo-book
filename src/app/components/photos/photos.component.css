@@ -1,0 +1,44 @@
+hr {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 0.5px;
+}
+
+.surroundingImage {
+width: 280px;
+height: 280px;
+margin-right: 20px;
+float: left;
+}
+
+.opacity {
+    opacity: 0.8;
+    color:grey;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
+.opacity:hover {
+    opacity: 1.0;
+    color:black;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+.loader-position{
+  padding-bottom: 100%; margin-top: 260px; margin-right: 55%; margin-left: 45%;
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

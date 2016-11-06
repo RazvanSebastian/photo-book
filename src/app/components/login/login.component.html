@@ -1,0 +1,46 @@
+<div class="page-content container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="login-wrapper" style="padding-top: 2px; margin-top: 150px;">
+        <div class="box">
+          <div class="content-wrap">
+            <h6>Sign In</h6>
+            <div class="social">
+              <a class="face_login" href="#">
+                <span class="face_icon">
+	                                    <img src="../../../../facebook.png">
+	                                </span>
+                <span class="text">Sign in with Facebook</span>
+              </a>
+              <div class="division">
+                <hr class="left">
+                <span>or</span>
+                <hr class="right">
+              </div>
+            </div>
+            <input [(ngModel)]="userLogin.username" class="form-control" type="text" placeholder="E-mail address">
+            <input [(ngModel)]="userLogin.password" class="form-control" type="password" placeholder="Password">
+
+            <div [ngClass]="['checkbox','row']">
+              <p class="col-md-8">Remember me :</p>
+              <input [(ngModel)]="remember" type="checkbox" class="col-md-2">
+            </div>
+            <div>
+              <p *ngIf="loginStatus==false" [ngStyle]="{'color': 'red', 'font-weight': 'bold'}">
+                ***Bad credentials*** </p>
+            </div>
+
+            <div class="action">
+              <a class="btn btn-primary signup"  (click)="onLogin()">Login</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="already">
+          <p>Don't have an account yet?</p>
+          <a [routerLink]="['/register']">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

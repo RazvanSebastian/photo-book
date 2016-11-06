@@ -1,0 +1,16 @@
+.formStyle {
+  margin: 220px 200px 4px;
+  top: 2px;
+  padding-top: 0px;
+  padding-bottom: 70px;
+  padding-left: 1px;
+  border-top-width: 0px;
+  border-bottom-width: 2px;
+}
+
+.fade {
+   opacity: 1;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+   }

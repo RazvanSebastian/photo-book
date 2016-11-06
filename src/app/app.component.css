@@ -1,0 +1,7 @@
+.nav-bar-position{
+  height: 110px;
+  top : 0px;
+  position: fixed;
+}
+
+li { cursor: pointer; cursor: hand; }
