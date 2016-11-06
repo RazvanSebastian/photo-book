@@ -200,7 +200,6 @@ public class ImageService {
 		
 		return "data:image/jpeg;base64,"+imgToBase64String(this.resizeImageWithHint
 				(this.convertBlobToBufferedImage(blobImage), BufferedImage.TYPE_INT_ARGB) , "png");
-		
 	}
 	
 	

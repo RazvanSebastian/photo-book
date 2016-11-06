@@ -9,13 +9,13 @@ public class UserDTO {
 	private String password;
 	private String firstName;	
 	private String lastName;	
-	private Date birthDay;
+	private String birthDay;
 	
 	public UserDTO(){
 		
 	}
 	
-	public UserDTO(String email, String password, String firstName, String lastName, Date birthDay) {;
+	public UserDTO(String email, String password, String firstName, String lastName, String birthDay) {;
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
@@ -27,7 +27,7 @@ public class UserDTO {
 
 
 	public UserDTO(Long id, String username, String email, String password, String firstName, String lastName,
-			Date birthDay) {
+			String birthDay) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -76,10 +76,10 @@ public class UserDTO {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthDay() {
+	public String getBirthDay() {
 		return birthDay;
 	}
-	public void setBirthDay(Date birthDay) {
+	public void setBirthDay(String birthDay) {
 		this.birthDay = birthDay;
 	}
 	

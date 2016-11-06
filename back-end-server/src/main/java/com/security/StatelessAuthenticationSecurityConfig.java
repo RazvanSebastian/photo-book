@@ -44,6 +44,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				// allow anonymous POSTs to login
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 				.antMatchers(HttpMethod.HEAD, "/api/send-email").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/stats").permitAll()
 				
 
 				/*
@@ -53,7 +54,7 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				// allow only authenticated user to add, get
 				.antMatchers(HttpMethod.POST, "/api/account/*/photoAlbum").hasRole("USER")
 				.antMatchers(HttpMethod.GET, "/api/account/*/clientAlbums").hasRole("USER")
-				.antMatchers(HttpMethod.GET, "/api/my-album/view/original-photo=*").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/my-album/download/original=*").hasRole("USER")
 				// photo gfalery
 				.antMatchers(HttpMethod.GET, "/api/my-album/*/client-photos/page=*").hasRole("USER")
 				.antMatchers(HttpMethod.GET, "/api/album/*/details").hasRole("USER")

@@ -19,7 +19,10 @@ public class PhotoDto {
 		super();
 	}
 	
-	
+	public PhotoDto(String image) {
+		super();
+		this.image = image;
+	}
 
 	public PhotoDto(String name, String description, String category, Long visualisations, double rating, Date date,
 			String image) {

@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = { " com.restApi" ,"com.service", "com.security" })
+@ComponentScan(basePackages = { "com.service.local", "com.restApi" ,"com.service", "com.security" })
 @EntityScan(basePackages ={ "com.repository.model"})
 @EnableJpaRepositories(basePackages={"com.repository.repository"})
 @EnableScheduling
