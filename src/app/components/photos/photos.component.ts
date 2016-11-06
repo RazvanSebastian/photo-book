@@ -17,6 +17,7 @@ import { RuntimeCompiler} from '@angular/compiler';
 })
 
 export class PhotosComponent implements OnInit {
+  originalImage:Photo;
 
   displayLoader:boolean=true;
   displayContent:boolean=false;
@@ -48,6 +49,7 @@ export class PhotosComponent implements OnInit {
   ngOnInit() {
     this.paginationConfig = { itemsPerPage: 8, currentPage: 1 };
     this.myAlbum = new PhotoAlbum(1, "", "", "", new Date, "");
+    this.originalImage=new Photo(1,"","","","","",null,"");
     //receive paramter using router
     this.route.params.forEach((params: Params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number
@@ -82,8 +84,8 @@ export class PhotosComponent implements OnInit {
       photosPerPage.push(photo);
     });
     this.storedPages[this.paginationConfig.currentPage] = photosPerPage;
-    console.log(this.storedPages[this.paginationConfig.currentPage]);
-    console.log(this.paginationConfig.currentPage);
+    // console.log(this.storedPages[this.paginationConfig.currentPage]);
+    // console.log(this.paginationConfig.currentPage);
     this.displayLoader=false;
   }
 
@@ -131,7 +133,7 @@ export class PhotosComponent implements OnInit {
 
   onDelete(photo,id,page) {
     this.photoForDelete=photo;
-    console.log(this.photoForDelete);
+    // console.log(this.photoForDelete);
     this.deletePagePhoto=page;
     this.deleteId = id;
   }
@@ -197,20 +199,20 @@ export class PhotosComponent implements OnInit {
     return blob;
   }
 
-  onGetOriginalPhotoSucces(data){
-    console.log(JSON.parse(data._body));
-  }
-
-  downloadFile(id:number,name:String) {
-    // this._runtimeCompiler.clearCache();
-    var image;
-    this._photoService.getOriginalPhoto(id).subscribe( data =>this.onGetOriginalPhotoSucces(data));
-    var type=this.getImageFormat(image);
-    var blob = this.b64toBlob(image.split(',')[1], "image/"+type, 2048);
+  onGetOriginalImageSuccess(data,name){
+    this.originalImage.image=JSON.parse(data._body).image;
+    console.log(this.originalImage);
+    var type=this.getImageFormat(this.originalImage.image);
+    var blob = this.b64toBlob(this.originalImage.image.split(',')[1], "image/"+type, 2048);
     saveAs(blob, name+"."+type);
-    image=null;
     blob=null;
     type=null;
   }
 
+  downloadFile(id,name:String) {
+    this._photoService.getOriginalPhoto(id).subscribe(
+       data =>this.onGetOriginalImageSuccess(data,name),
+       err=>console.log("err")
+     );
+  }
 }

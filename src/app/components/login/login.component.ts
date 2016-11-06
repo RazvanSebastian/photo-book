@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSucces(response) {
+    console.log(response.header);
     //We are extracting the token(encrypted) and after we are pasring to JSON and recevice user details(email, autohiry, etc)
     let tokenName = this. _localService.headerTokenName;
     let token = response.headers._headersMap.get(tokenName);

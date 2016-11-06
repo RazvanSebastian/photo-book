@@ -3,10 +3,10 @@ import {Http,Headers,RequestOptions} from "@angular/http";
 
 export class EmailMessage{
   constructor(
-    name:String,
-    email:String,
-    company:String,
-    message:String
+    public name:String,
+    public email:String,
+    public company:String,
+    public message:String
   )
   {}
 }

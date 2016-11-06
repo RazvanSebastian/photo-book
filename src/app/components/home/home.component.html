@@ -144,14 +144,11 @@
     <div class="row">
       <div class="col-sm-6 wowload fadeInLeft">
         <h4><i class="fa fa-paint-brush"></i> Design</h4>
-        <p>Creative digital agency for sleek and sophisticated solutions for mobile, websites and software designs, lead by passionate and uber progressive team that lives and breathes design. Creative digital agency for sleek and sophisticated solutions
-          for mobile, websites and software designs.</p>
-
-
+        <p>Our application was created for you to store and share your capture and also to search and download your photos or from others.      </p>
       </div>
       <div class="col-sm-6 wowload fadeInRight">
         <h4><i class="fa fa-code"></i> Frontend & Backend Development</h4>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <p>The fron end is write in HTML using Angular 2 to create dynamic pages and the back end is write in Java using Spring framework and a lot of oher dependencies!</p>
       </div>
     </div>
 
@@ -187,15 +184,19 @@
         <div class="row text-center  wowload fadeInDownBig">
           <div class="col-sm-3 col-xs-6">
             <i class="fa fa-smile-o  fa-5x"></i>
-            <h4>24 Clients</h4>
-          </div>
-          <div class="col-sm-3 col-xs-6">
-            <i class="fa fa-rocket  fa-5x"></i>
-            <h4>75 albums</h4>
+            <h4>{{clients}} Clients</h4>
           </div>
           <div class="col-sm-3 col-xs-6">
             <i class="fa fa-cloud-download  fa-5x"></i>
-            <h4>454 Downloads</h4>
+            <h4>{{downloads}} Downloads</h4>
+          </div>
+          <div class="col-sm-3 col-xs-6">
+            <i class="fa fa-picture-o  fa-5x"></i>
+            <h4>{{photos}} Photos</h4>
+          </div>
+          <div class="col-sm-3 col-xs-6">
+            <i class="fa fa-book  fa-5x"></i>
+            <h4>{{albums}} Albums</h4>
           </div>
         </div>
       </div>
@@ -214,18 +215,18 @@
 
     <!-- team -->
     <h3 class="text-center  wowload fadeInUp">Our team</h3>
-    <p class="text-center  wowload fadeInLeft">Our creative team that is making everything possible</p>
+    <p class="text-center  wowload fadeInLeft">Our team are trying for you to have the best experience on our application!</p>
     <div class="row grid team  wowload fadeInUpBig">
       <div class=" col-sm-3 col-xs-6">
         <figure class="effect-chico">
-          <img src="app\images/team/8.jpg" alt="img01" class="img-responsive" />
+          <img src="app\images\team\razvan.jpg" alt="img01" class="img-responsive" />
           <figcaption>
-            <p><b>Barbara Husto</b><br>Senior Designer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>
+            <p><b>Părăuțiu Răzvan</b><br>Owner<br><br> <a href="https://www.facebook.com/razvan.parautiu"><i class="fa fa-facebook"></i></a> </p>
           </figcaption>
         </figure>
       </div>
 
-      <div class=" col-sm-3 col-xs-6">
+      <!-- <div class=" col-sm-3 col-xs-6">
         <figure class="effect-chico">
           <img src="app\images/team/10.jpg" alt="img01" />
           <figcaption>
@@ -250,43 +251,52 @@
             <p><b>Barbara Husto</b><br>Senior Designer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>
           </figcaption>
         </figure>
-      </div>
+      </div> -->
 
 
     </div>
     <!-- team -->
-
   </div>
-
-
-
-
-
-
-
-
 
 
   <!--Contact Starts-->
   <div id="contact" class="spacer">
 
     <div class="container contactform center">
-      <h2 class="text-center  wowload fadeInUp">Get in touch to start your project</h2>
+      <h2 class="text-center  wowload fadeInUp">Get in touch with us, if you have ideas of improvement!</h2>
       <div class="row wowload fadeInLeftBig">
         <div class="col-sm-6 col-sm-offset-3 col-xs-12">
           <input type="text" [(ngModel)]="emailMessage.name" placeholder="Name">
           <input type="text" [(ngModel)]="emailMessage.email" type="email" placeholder="Email">
           <input type="text" [(ngModel)]="emailMessage.company" placeholder="Company">
           <textarea rows="5" [(ngModel)]="emailMessage.message" placeholder="Message"></textarea>
-          <button (click)="onSend()" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+          <button (click)="onSend()" class="btn btn-primary"
+          type="submit" data-toggle="modal" data-target="#myModal" ><i class="fa fa-paper-plane"></i> Send</button>
         </div>
       </div>
-
     </div>
   </div>
 
 <!-- end page -->
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" >
+      <div class="modal-body">
+        <p>{{  emailSenderErrorMessage }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>Cancel
+      </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- jquery -->
 <script src="assets/jquery.js"></script>

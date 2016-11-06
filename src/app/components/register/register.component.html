@@ -13,10 +13,7 @@
             <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.password" class="form-control" type="password" placeholder="Password">
             <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="secondPassword" class="form-control" type="password" placeholder="Confirm Password">
             <input [ngStyle]="{'font-size': '15px','height':'30px'}" [(ngModel)]="user.birthDay" class="form-control" type="date"
-             placeholder="Birth day : dd-mm-yyyy">
-            <div>
-              <p style="padding-top: 12px; padding-right: 260px;">Your avatar image:</p>
-            </div>
+             placeholder="Birth day : day/month/year">
               <!-- Image upload -->
             <!-- <div class="form-group">
               <input type="file" id="exampleInputFile" (change)="attachFile($event)">

@@ -26,25 +26,25 @@ export class AlbumService {
 
   receviceAllAlbums(userId){
     let headers = new Headers({"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
-    let options = new RequestOptions({ headers: headers })
+    let options = new RequestOptions({ headers: headers });
     return this._http.get("http://localhost:8080/api/"+"account/"+userId+"/clientAlbums",options);
   }
 
   receiveAlbum(albumId){
     let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
-    let options = new RequestOptions({ headers: headers })
+    let options = new RequestOptions({ headers: headers });
     return this._http.get("http://localhost:8080/api/"+"album/"+albumId+"/details",options);
   }
 
   deleteAlbum(albumId){
     let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
-    let options = new RequestOptions({ headers: headers })
+    let options = new RequestOptions({ headers: headers });
     return this._http.delete("http://localhost:8080/api/"+"album-collection/delete-album/"+albumId,options);
   }
 
   receviceAllCategories(){
     let headers = new Headers({ "X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN") });
-    let options = new RequestOptions({ headers: headers })
+    let options = new RequestOptions({ headers: headers });
     return this._http.get("http://localhost:8080/api/get-category",options);
   }
 }
