@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,6 +13,7 @@ import com.entity.DTO.PhotoDto;
 import com.repository.model.Photo;
 import com.repository.repository.PhotoAlbumRepository;
 import com.repository.repository.PhotoRepository;
+import com.repository.repository.StatsRepository;
 import com.service.local.BlobString;
 import com.service.local.ImageService;
 import com.service.local.PaginationService;
@@ -29,9 +31,15 @@ public class PhotoService {
 	private ImageService imageService;
 	@Autowired
 	private PaginationService paginationService;
+	@Autowired
+	private StatsRepository statsRepo;
 	
-	public String getOriginalPhotoById(Long id){
-		return this.converter.convertBlobToString(this.photoRepository.findById(id).getImage());
+	public PhotoDto getOriginalPhotoById(Long id){
+		PhotoDto photo=new PhotoDto();
+		photo.setId(id);
+		photo.setImage(this.converter.convertBlobToString(this.photoRepository.findById(id).getImage()));
+		this.statsRepo.updateStatsValue(this.statsRepo.getNumbeOfStatsByName("downloads")+1, "downloads");
+		return photo;
 	}
 	
 	public Long numberOfPhotos(Long id){
@@ -63,6 +71,7 @@ public class PhotoService {
 		photo.setRating(5);
 		photo.setVisualisations((long) 0);
 		photo.setAlbum(this.albumRepository.findById(idAlbum));
+		this.statsRepo.updateStatsValue(this.statsRepo.getNumbeOfStatsByName("photos")+1, "photos");
 		this.photoRepository.save(photo);
 	}
 	

@@ -32,53 +32,55 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().disable().exceptionHandling().and().anonymous().and().servletApi().and().headers().cacheControl().and().
-		authorizeRequests()
-		// allow anonymous resource requests
-		.antMatchers("/").permitAll()
-				
-				//allow anonymous to register
-				.antMatchers(HttpMethod.POST, "/api/register").permitAll()
-				//allow anonymous POSTs to login
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				
-				.antMatchers(HttpMethod.GET, "/api/blob/*").hasRole("USER")
-				
-				//allow only authenticated user to add, get
-				.antMatchers(HttpMethod.POST,"/api/account/*/photoAlbum").hasRole("USER")
-				.antMatchers(HttpMethod.GET,"/api/account/*/clientAlbums").hasRole("USER")
-				
-				.antMatchers(HttpMethod.GET,"/api/my-album/view/original-photo=*").hasRole("USER")
-				
-				
-				//photo gfalery
-				.antMatchers(HttpMethod.GET,"/api/my-album/*/client-photos/page=*").hasRole("USER")
-				.antMatchers(HttpMethod.GET,"/api/album/*/details").hasRole("USER")
-				.antMatchers(HttpMethod.GET,"/api/photo-number/album=*").hasRole("USER")
-				
-				
-				//add new photo
-				.antMatchers(HttpMethod.POST,"/api/my-album/*/new-photo").hasRole("USER")
-				
-				.antMatchers(HttpMethod.DELETE,"/api/my-album/delete-photo/*").hasRole("USER")
-				
-				.antMatchers(HttpMethod.DELETE,"/api/album-collection/delete-album/*").hasRole("USER")
-				
-				.antMatchers(HttpMethod.GET,"/api/search-photo/category=*/date=*/search=*").hasRole("USER")
-				
-				.antMatchers(HttpMethod.GET,"/api/get-category").hasRole("USER")
-				
-				
-				//all other request need to be authenticated
-				.anyRequest().hasRole("USER").and()				
-		
-				// custom JSON based authentication by POST of {"username":"<name>","password":"<password>"} which sets the token header upon authentication
-				.addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, userDetailsService, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+		http.httpBasic().disable().exceptionHandling().and().anonymous().and().servletApi().and().headers()
+				.cacheControl().and().authorizeRequests()
 
-				// custom Token based authentication based on the header previously given to the client
-				.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
+				/*
+				 * ANONYMOUS permission
+				 */
+				.antMatchers("/").permitAll()
+				// allow anonymous to register
+				.antMatchers(HttpMethod.POST, "/api/register").permitAll()
+				// allow anonymous POSTs to login
+				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+				.antMatchers(HttpMethod.HEAD, "/api/send-email").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/stats").permitAll()
+				
+
+				/*
+				 * USER permission
+				 */
+				.antMatchers(HttpMethod.GET, "/api/blob/*").hasRole("USER")
+				// allow only authenticated user to add, get
+				.antMatchers(HttpMethod.POST, "/api/account/*/photoAlbum").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/account/*/clientAlbums").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/my-album/download/original=*").hasRole("USER")
+				// photo gfalery
+				.antMatchers(HttpMethod.GET, "/api/my-album/*/client-photos/page=*").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/album/*/details").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/photo-number/album=*").hasRole("USER")
+				// add new photo
+				.antMatchers(HttpMethod.POST, "/api/my-album/*/new-photo").hasRole("USER")
+				.antMatchers(HttpMethod.DELETE, "/api/my-album/delete-photo/*").hasRole("USER")
+				.antMatchers(HttpMethod.DELETE, "/api/album-collection/delete-album/*").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/search-photo/category=*/date=*/search=*").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/get-category").hasRole("USER")
+
+				// all other request need to be authenticated
+				.anyRequest().hasRole("USER").and()
+
+				// custom JSON based authentication by POST of
+				// {"username":"<name>","password":"<password>"} which sets the
+				// token header upon authentication
+				.addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, userDetailsService,
+						authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+
+				// custom Token based authentication based on the header
+				// previously given to the client
+				.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService),
+						UsernamePasswordAuthenticationFilter.class);
 	}
-	
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -95,5 +97,3 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 		return userDetailsService;
 	}
 }
-
-

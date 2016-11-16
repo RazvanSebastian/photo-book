@@ -12,6 +12,7 @@ import com.repository.model.Photo;
 import com.repository.model.PhotoAlbum;
 import com.repository.repository.PhotoAlbumRepository;
 import com.repository.repository.PhotoRepository;
+import com.repository.repository.StatsRepository;
 import com.repository.repository.UserRepository;
 import com.service.local.BlobString;
 import com.service.local.ImageService;
@@ -29,6 +30,8 @@ public class PhotoAlbumService {
 	 private ImageService imageService;
 	@Autowired
 	private PhotoRepository photoRepository;
+	@Autowired
+	private StatsRepository statsRepo;
 	/*
 	 * Save new album
 	 * */
@@ -49,6 +52,7 @@ public class PhotoAlbumService {
 				photoAlbum.getDescription(),
 				photoAlbum.getCategory(),(long) 0,5,photoAlbum.getDate(),
 				this.blobStringConverter.convertStringToBlob(photoAlbum.getCoverImage()));
+		this.statsRepo.updateStatsValue(this.statsRepo.getNumbeOfStatsByName("albums")+1, "albums");
 		this.photoRepository.save(photoCover);
 	}
 	

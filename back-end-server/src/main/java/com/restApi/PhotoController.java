@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.connector.Response;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -84,16 +87,9 @@ public class PhotoController {
 
 		return this.photoService.getPhotoListByCriterium(category, date, search);
 	}
-		
-//	##########################
-
-	@RequestMapping(value="/api/blob/{id}",method=RequestMethod.GET)
-	public  void  downloadFile(@PathVariable(value="id") Long id){
-		System.out.println(this.imageService.resizeImageWidthAndHeight(this.repo.findById(id).getImage()));
-	}
-		 
-	@RequestMapping(value="/api/my-album/view/original-photo={id}", method=RequestMethod.GET)
-	public String getOriginalPhoto(@PathVariable(value="id") Long id){
+	
+	@RequestMapping(value="/api/my-album/download/original={id}" , method=RequestMethod.GET)
+	public PhotoDto getOriginalImage(@PathVariable(value="id") Long id){
 		return this.photoService.getOriginalPhotoById(id);
 	}
 }
