@@ -76,8 +76,8 @@ export class HomeComponent implements OnInit {
     this.statsNumbers=JSON.parse(data._body);
     this.clients=this.statsNumbers[0];
     this.downloads=this.statsNumbers[1];
-    this.photos=this.statsNumbers[2];
-    this.albums=this.statsNumbers[3];
+    this.photos=this.statsNumbers[3];
+    this.albums=this.statsNumbers[2];
   }
 
   getAllStatsNumbers(){

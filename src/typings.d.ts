@@ -3,4 +3,6 @@
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
 /// <reference path="../typings/index.d.ts" />
+/// <reference path="../typings/crypto-js/crypto-js.d.ts" />
+
 declare var module: { id: string };

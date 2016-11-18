@@ -1,3 +1,90 @@
-<p>
-  account-details works!
-</p>
+<form [ngClass]="['container','form-style']">
+
+  <form class="container">
+    <h3> Change your personal informations:</h3>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+     <span class="glyphicon glyphicon-envelope"></span>
+      </span>
+      <input class="form-control" [(ngModel)]="newUserDetails.email" type="email" placeholder="New email">
+    </div>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+     <span class="glyphicon glyphicon-user"></span>
+      </span>
+      <input class="form-control" [(ngModel)]="newUserDetails.firstName" type="text" placeholder="First name">
+    </div>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+     <span class="glyphicon glyphicon-user"></span>
+      </span>
+      <input class="form-control" [(ngModel)]="newUserDetails.lastName" type="text" placeholder="Last name">
+    </div>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+     <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+      <input class="form-control" [(ngModel)]="newUserDetails.birthDay" type="date" placeholder="Birth day : day/month/year">
+    </div>
+
+    <div class="form-group">
+      <button type="button" class="btn btn-info" (click)="onChangeProfile()" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-pencil"></span> Save your changes
+      </button>
+    </div>
+
+  </form>
+
+  <hr>
+
+  <form class="container">
+    <h3>Change your password:</h3>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-lock"></span>
+      </span>
+      <input class="form-control" type="password" [(ngModel)]="oldPassword" placeholder="Old password">
+    </div>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+       <span class="glyphicon glyphicon-lock"></span>
+      </span>
+      <input class="form-control" type="password" [(ngModel)]="newPassword" placeholder="New password">
+    </div>
+
+    <div [ngClass]="['input-group input-group-lg','form-group']">
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-lock"></span>
+      </span>
+      <input class="form-control" type="password" [(ngModel)]="retypeNewPassword" placeholder="Confirm the new password">
+    </div>
+
+    <div class="form-group">
+      <button type="button" class="btn btn-info" (click)="onChangePassword()">
+        <span class="glyphicon glyphicon-pencil"></span> Change your password
+      </button>
+    </div>
+  </form>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p> {{openModal}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>Cancel
+      </button>
+      </div>
+    </div>
+  </div>
+</div>
