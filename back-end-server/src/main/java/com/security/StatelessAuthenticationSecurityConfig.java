@@ -46,10 +46,13 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				.antMatchers(HttpMethod.HEAD, "/api/send-email").permitAll()
 				.antMatchers(HttpMethod.GET, "/api/stats").permitAll()
 				
-
+				.antMatchers(HttpMethod.HEAD, "/api/login-guard/check").hasAnyRole("ADMIN","USER")
+				
 				/*
 				 * USER permission
 				 */
+				
+			
 				.antMatchers(HttpMethod.GET, "/api/blob/*").hasRole("USER")
 				// allow only authenticated user to add, get
 				.antMatchers(HttpMethod.POST, "/api/account/*/photoAlbum").hasRole("USER")
@@ -65,7 +68,11 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				.antMatchers(HttpMethod.DELETE, "/api/album-collection/delete-album/*").hasRole("USER")
 				.antMatchers(HttpMethod.GET, "/api/search-photo/category=*/date=*/search=*").hasRole("USER")
 				.antMatchers(HttpMethod.GET, "/api/get-category").hasRole("USER")
-
+				
+//profile change
+				
+				.antMatchers(HttpMethod.PUT,"/api/account/change-personal-info").hasAnyRole("ADMIN","USER")
+				.antMatchers(HttpMethod.PUT,"/api/account/change-password").hasAnyRole("ADMIN","USER")
 				// all other request need to be authenticated
 				.anyRequest().hasRole("USER").and()
 

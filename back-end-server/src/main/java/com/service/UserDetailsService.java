@@ -25,9 +25,29 @@ public class UserDetailsService implements org.springframework.security.core.use
 	private UserRepository userRepoistory;
 	@Autowired
 	private StatsRepository statsRepo;
-
 	
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
+	
+	public void updateProfile(UserDTO userProfile,String userName) throws Exception{
+		User userUpdate=this.userRepoistory.findByUsername(userName);
+		if(userUpdate!=null){
+			if(!userProfile.getEmail().equals(""))
+				userUpdate.setEmail(userProfile.getEmail());
+			if(!userProfile.getFirstName().equals(""))
+				userUpdate.setFirstName(userProfile.getFirstName());
+			if(!userProfile.getLastName().equals(""))
+				userUpdate.setLastName(userProfile.getLastName());
+			if(!userProfile.getBirthDay().equals(""))
+				userUpdate.setBirthDay(this.generateDateFromString(userProfile.getBirthDay()));
+		this.userRepoistory.updateUserProfileByUsername(
+				userUpdate.getEmail(), 
+				userUpdate.getFirstName(),
+				userUpdate.getLastName(),
+				userUpdate.getBirthDay(),
+				userName);
+		}
+	}
+	
 	
 	public void saveUser(UserDTO user) throws Exception {
 		User newUser=new User();

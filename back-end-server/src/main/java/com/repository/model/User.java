@@ -128,6 +128,14 @@ public class User implements UserDetails {
 		this.lastName = lastName;
 		this.birthDay = birthDay;
 	}
+	
+	public User(String email, String firstName, String lastName, Date birthDay) {
+		super();
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDay = birthDay;
+	}
 
 	public void setUsername(String username) {
 		this.username = username;
