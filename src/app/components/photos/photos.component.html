@@ -48,7 +48,7 @@ I'm using this to import FileSaver in my app  -->
             <span aria-hidden="true" class="glyphicon glyphicon-zoom-in"></span>Zoom
           </button>
 
-          <button class="opacity" (click)="downloadFile(photo.id,photo.name)"  type="submit" style="border:0px;">
+          <button class="opacity" (click)="downloadFile(photo.id,photo.name)" data-toggle="modal" data-target="#myModalLoading"  type="submit" style="border:0px;"  >
             <span aria-hidden="true" class="glyphicon glyphicon-download"></span>Download
           </button>
 
@@ -102,6 +102,19 @@ I'm using this to import FileSaver in my app  -->
   </div>
   <!-- close modal -->
 
+  <!-- Modal waiting for download-->
+  <div class="modal fade" id="myModalLoading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" >
+        <div class="modal-body">
+          <p>{{loadingMessage}}</p>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- close modal -->
 
   <!-- Pagination content -->
   <div class="is-text-centered col-md-12" style="padding-left:40% ; padding-right:40%;">

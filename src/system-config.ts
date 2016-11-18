@@ -9,7 +9,8 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  "ng2-pagination": "vendor/ng2-pagination/dist"
+  "ng2-pagination": "vendor/ng2-pagination/dist",
+  'crypto-js': 'vendor/crypto-js'
 };
 
 /** User packages configuration. */
@@ -17,7 +18,12 @@ const packages: any = {
   'ng2-pagination': {
     defaultExtension: 'js',
     main: 'ng2-pagination.js'
-  }
+  },
+  'crypto-js': {
+       format: 'cjs',
+       defaultExtension: 'js',
+       main: 'crypto-js.js'
+   }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

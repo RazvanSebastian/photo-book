@@ -2,6 +2,7 @@ import {EventEmitter, Component, OnInit, Input, Output} from '@angular/core';
 import { ROUTER_DIRECTIVES } from "@angular/router";
 import {EmailMessage, EmailServiceService} from "./email-service.service";
 import { HomeService } from "./home-service.service";
+import { RuntimeCompiler} from '@angular/compiler';
 
 @Component({
   moduleId: module.id,
@@ -22,9 +23,11 @@ export class HomeComponent implements OnInit {
   statsNumbers : number[];
   clients:number;downloads:number;photos:number;albums:number;
 
-  constructor(private _emailService: EmailServiceService,private _homeService:HomeService) { }
+  constructor(private _emailService: EmailServiceService,private _homeService:HomeService,
+  private _templateCompiler:RuntimeCompiler) { }
 
   ngOnInit() {
+    this._templateCompiler.clearCache();
     this.emailMessage = new EmailMessage("", "", "", "");
     var myDiv: HTMLDivElement;
     if (localStorage.getItem("X-AUTH-TOKEN") || sessionStorage.getItem("X-AUTH-TOKEN"))
@@ -73,8 +76,8 @@ export class HomeComponent implements OnInit {
     this.statsNumbers=JSON.parse(data._body);
     this.clients=this.statsNumbers[0];
     this.downloads=this.statsNumbers[1];
-    this.photos=this.statsNumbers[2];
-    this.albums=this.statsNumbers[3];
+    this.photos=this.statsNumbers[3];
+    this.albums=this.statsNumbers[2];
   }
 
   getAllStatsNumbers(){

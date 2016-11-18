@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
-import { LoginService, UserLogin} from './login.service';
+import { UserService, UserLogin} from './user.service';
 import { LocalUserService } from '../../components/global/local-service.service';
-import { Http} from '@angular/http';
 
 @Component({
   moduleId: module.id,
@@ -10,7 +9,7 @@ import { Http} from '@angular/http';
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css'],
   directives: [ROUTER_DIRECTIVES],
-  providers: [LoginService,LocalUserService]
+  providers: [UserService,LocalUserService]
 })
 export class LoginComponent implements OnInit {
 
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginStatus: boolean = true;
   loggedIn: boolean = false;
   remember: boolean = false;
-  constructor(private _loginService: LoginService, private _router: Router, private _localService:LocalUserService) { }
+  constructor(private _loginService: UserService, private _router: Router, private _localService:LocalUserService) { }
 
   ngOnInit() {
     this.userLogin = new UserLogin("", "");

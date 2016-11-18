@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Compiler, Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { LocalUserService}  from "../global/local-service.service";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import {PhotoService, Photo} from "./photo.service";
@@ -17,10 +17,13 @@ import { RuntimeCompiler} from '@angular/compiler';
 })
 
 export class PhotosComponent implements OnInit {
-  originalImage:Photo;
+  originalImage: Photo;
 
-  displayLoader:boolean=true;
-  displayContent:boolean=false;
+  photoPrepare: boolean;
+  loadingMessage: string;
+
+  displayLoader: boolean = true;
+  displayContent: boolean = false;
 
   albumId: any;
   myAlbum: PhotoAlbum;
@@ -42,14 +45,17 @@ export class PhotosComponent implements OnInit {
   page: number;
 
   constructor(private route: ActivatedRoute, private _router: Router, private _photoService: PhotoService,
-    private _albumService: AlbumService,private _runtimeCompiler: RuntimeCompiler) {
+    private _albumService: AlbumService, private _runtimeCompiler: RuntimeCompiler,
+    private _templateCompiler: Compiler) {
     this.photoGallery = new Array<Photo>();
   }
 
   ngOnInit() {
+    this._templateCompiler.clearCache();
+
     this.paginationConfig = { itemsPerPage: 8, currentPage: 1 };
     this.myAlbum = new PhotoAlbum(1, "", "", "", new Date, "");
-    this.originalImage=new Photo(1,"","","","","",null,"");
+    this.originalImage = new Photo(1, "", "", "", "", "", null, "");
     //receive paramter using router
     this.route.params.forEach((params: Params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number
@@ -78,7 +84,7 @@ export class PhotosComponent implements OnInit {
   }
 
   onGetSucces(data) {
-    this.displayLoader=true;
+    this.displayLoader = true;
     var photosPerPage = new Array<Photo>();
     JSON.parse(data.text()).forEach(photo => {
       photosPerPage.push(photo);
@@ -86,7 +92,7 @@ export class PhotosComponent implements OnInit {
     this.storedPages[this.paginationConfig.currentPage] = photosPerPage;
     // console.log(this.storedPages[this.paginationConfig.currentPage]);
     // console.log(this.paginationConfig.currentPage);
-    this.displayLoader=false;
+    this.displayLoader = false;
   }
 
   onGetPhotos(idAlbum) {
@@ -128,22 +134,22 @@ export class PhotosComponent implements OnInit {
   }
 
   //dELETE METHOD
-  deletePagePhoto:number;
-  photoForDelete:Photo;
+  deletePagePhoto: number;
+  photoForDelete: Photo;
 
-  onDelete(photo,id,page) {
-    this.photoForDelete=photo;
+  onDelete(photo, id, page) {
+    this.photoForDelete = photo;
     // console.log(this.photoForDelete);
-    this.deletePagePhoto=page;
+    this.deletePagePhoto = page;
     this.deleteId = id;
   }
 
   onModalClose() {
-    if(this.deletePagePhoto==this.paginationConfig.totalItems/6){
-      if(this.storedPages[this.deletePagePhoto].length==1)
+    if (this.deletePagePhoto == this.paginationConfig.totalItems / 6) {
+      if (this.storedPages[this.deletePagePhoto].length == 1)
         delete this.storedPages[this.deletePagePhoto];
-      else{
-        var index=this.storedPages[this.deletePagePhoto].indexOf(this.photoForDelete);
+      else {
+        var index = this.storedPages[this.deletePagePhoto].indexOf(this.photoForDelete);
         this.storedPages[this.deletePagePhoto].splice(index, 1);
       }
     }
@@ -165,54 +171,51 @@ export class PhotosComponent implements OnInit {
 
   //################ Download image on local disk ###########
 
-  private getImageFormat(image):String{
-    if (image.substring(11, 14)==="jpg")
-			return image.substring(11, 14);
-		if (image.substring(11, 15)==="jpeg")
-			return image.substring(11, 15);
-		if (image.substring(11, 14)==="png")
-			return image.substring(11, 14);
+  private getImageFormat(image): String {
+    if (image.substring(11, 14) === "jpg")
+      return image.substring(11, 14);
+    if (image.substring(11, 15) === "jpeg")
+      return image.substring(11, 15);
+    if (image.substring(11, 14) === "png")
+      return image.substring(11, 14);
     return "";
   }
 
   b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
-    sliceSize = sliceSize || 512;
-
     var byteCharacters = atob(b64Data);
-    var byteArrays = [];
+    var bytesLength = byteCharacters.length;
+    var slicesCount = Math.ceil(bytesLength / sliceSize);
+    var byteArrays = new Array(slicesCount);
 
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
+    for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      var begin = sliceIndex * sliceSize;
+      var end = Math.min(begin + sliceSize, bytesLength);
 
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
+      var bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
       }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
+    return new Blob(byteArrays, { type: contentType });
   }
 
-  onGetOriginalImageSuccess(data,name){
-    this.originalImage.image=JSON.parse(data._body).image;
-    console.log(this.originalImage);
-    var type=this.getImageFormat(this.originalImage.image);
-    var blob = this.b64toBlob(this.originalImage.image.split(',')[1], "image/"+type, 2048);
-    saveAs(blob, name+"."+type);
-    blob=null;
-    type=null;
+  onGetOriginalImageSuccess(data, name) {
+    this.loadingMessage = "We are preparing your photo in original format!";
+    this.originalImage.image = JSON.parse(data._body).image;
+
+    var type = this.getImageFormat(this.originalImage.image);
+    var blob = this.b64toBlob(this.originalImage.image.split(',')[1], "image/" + type, 1000000);
+    saveAs(blob, name + "." + type);
+    blob.msClose();
+    this.loadingMessage = "You can download your photo!";
   }
 
-  downloadFile(id,name:String) {
+  downloadFile(id, name: String) {
     this._photoService.getOriginalPhoto(id).subscribe(
-       data =>this.onGetOriginalImageSuccess(data,name),
-       err=>console.log("err")
-     );
+      data => this.onGetOriginalImageSuccess(data, name),
+      err => console.log("err")
+    );
   }
 }
