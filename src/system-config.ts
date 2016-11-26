@@ -10,7 +10,8 @@
 /** Map relative paths to URLs. */
 const map: any = {
   "ng2-pagination": "vendor/ng2-pagination/dist",
-  'crypto-js': 'vendor/crypto-js'
+  'crypto-js': 'vendor/crypto-js',
+  'aes-js':'vendor/aes-js'
 };
 
 /** User packages configuration. */
@@ -23,6 +24,10 @@ const packages: any = {
        format: 'cjs',
        defaultExtension: 'js',
        main: 'crypto-js.js'
+   },
+   'aes-js':{
+     defaultExtension: 'js',
+     main:"index.js"
    }
 };
 

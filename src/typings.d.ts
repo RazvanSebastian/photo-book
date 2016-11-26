@@ -4,5 +4,6 @@
 
 /// <reference path="../typings/index.d.ts" />
 /// <reference path="../typings/crypto-js/crypto-js.d.ts" />
+declare var require: any;
 
 declare var module: { id: string };

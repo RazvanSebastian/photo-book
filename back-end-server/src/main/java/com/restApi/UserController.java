@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entity.DTO.UserDTO;
 import com.repository.model.User;
 import com.service.UserDetailsService;
-import com.service.local.Crypto;
+
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,8 +27,7 @@ public class UserController {
 	
 	@Autowired
 	private UserDetailsService userService;
-	@Autowired
-	private Crypto cryptoHmac;
+
 	
 	@RequestMapping(value="/api/register",method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> registerNewUser(@RequestBody UserDTO user){
@@ -63,11 +63,12 @@ public class UserController {
 			@RequestHeader("UserName") String username,
 			@RequestHeader("NewPassword") String encriptedPassword,
 			@RequestHeader("OldPassword") String oldPassword){
-				System.out.println(username);
-				System.out.println(encriptedPassword);
-				System.out.println(oldPassword);
+		
 		try {
-			System.out.println(this.cryptoHmac.decrypt(encriptedPassword));
+		
+		
+		
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

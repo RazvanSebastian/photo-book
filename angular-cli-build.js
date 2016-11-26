@@ -17,7 +17,8 @@ module.exports = function(defaults) {
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
       'ng2-pagination/**/*.js',
-      'crypto-js/*.js'
+      'crypto-js/*.js',
+      'aes-js/*.js'
     ]
   });
 };
