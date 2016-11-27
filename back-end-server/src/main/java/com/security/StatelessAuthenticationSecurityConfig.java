@@ -72,7 +72,11 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 //profile change
 				
 				.antMatchers(HttpMethod.PUT,"/api/account/change-personal-info").hasAnyRole("ADMIN","USER")
+				
+				//change password
 				.antMatchers(HttpMethod.PUT,"/api/account/change-password").hasAnyRole("ADMIN","USER")
+				.antMatchers(HttpMethod.GET,"/api/account/change-password").hasAnyRole("ADMIN","USER")
+
 				// all other request need to be authenticated
 				.anyRequest().hasRole("USER").and()
 

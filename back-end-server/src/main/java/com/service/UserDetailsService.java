@@ -19,40 +19,50 @@ import com.repository.repository.StatsRepository;
 import com.repository.repository.UserRepository;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService{
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepoistory;
 	@Autowired
 	private StatsRepository statsRepo;
-	
+
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
-	
-	public void updateProfile(UserDTO userProfile,String userName) throws Exception{
-		User userUpdate=this.userRepoistory.findByUsername(userName);
-		if(userUpdate!=null){
-			if(!userProfile.getEmail().equals(""))
+
+	public void updatePassword(String oldPassword, String newPassword, String userName) throws Exception {
+		String oldPasswordSql = this.userRepoistory.getPasswordByUsername(userName);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		if (encoder.matches("adminadmin",oldPasswordSql)==true) {
+			
+			if (encoder.matches(newPassword,oldPasswordSql))
+				throw new Exception("The old password is the same with the new one!");
+			else
+				this.userRepoistory.updatePasswordByUserName(new BCryptPasswordEncoder().encode(newPassword),userName);
+		}
+		else
+			throw new Exception("This is not your old password! If yout don't remember it try forget password option!");
+	}
+
+	public void updateProfile(UserDTO userProfile, String userName) throws Exception {
+		User userUpdate = this.userRepoistory.findByUsername(userName);
+		if (userUpdate != null) {
+			if (!userProfile.getEmail().equals(""))
 				userUpdate.setEmail(userProfile.getEmail());
-			if(!userProfile.getFirstName().equals(""))
+			if (!userProfile.getFirstName().equals(""))
 				userUpdate.setFirstName(userProfile.getFirstName());
-			if(!userProfile.getLastName().equals(""))
+			if (!userProfile.getLastName().equals(""))
 				userUpdate.setLastName(userProfile.getLastName());
-			if(!userProfile.getBirthDay().equals(""))
+			if (userProfile.getBirthDay() != null)
 				userUpdate.setBirthDay(this.generateDateFromString(userProfile.getBirthDay()));
-		this.userRepoistory.updateUserProfileByUsername(
-				userUpdate.getEmail(), 
-				userUpdate.getFirstName(),
-				userUpdate.getLastName(),
-				userUpdate.getBirthDay(),
-				userName);
+			this.userRepoistory.updateUserProfileByUsername(userUpdate.getEmail(), userUpdate.getFirstName(),
+					userUpdate.getLastName(), userUpdate.getBirthDay(), userName);
 		}
 	}
-	
-	
+
 	public void saveUser(UserDTO user) throws Exception {
-		User newUser=new User();
+		User newUser = new User();
 		this.validatorInfo(user);
-		this.statsRepo.updateStatsValue(this.statsRepo.getNumbeOfStatsByName("clients")+1,"clients");
+		this.statsRepo.updateStatsValue(this.statsRepo.getNumbeOfStatsByName("clients") + 1, "clients");
 		newUser.setUsername(user.getUsername());
 		newUser.setEmail(user.getEmail());
 		newUser.setFirstName(user.getFirstName());
@@ -64,10 +74,10 @@ public class UserDetailsService implements org.springframework.security.core.use
 		newUser.grantRole(UserRole.USER);
 		this.userRepoistory.save(newUser);
 	}
-	
+
 	/*
 	 * Register section of verifications
-	 * */
+	 */
 	private void validatorInfo(UserDTO user) throws Exception {
 		if (user.getEmail().length() == 0 || user.getFirstName().length() == 0 || user.getLastName().length() == 0
 				|| user.getBirthDay() == null)
@@ -78,19 +88,19 @@ public class UserDetailsService implements org.springframework.security.core.use
 			throw new Exception("This email is used!");
 		if (EmailValidator.getInstance().isValid(user.getEmail()) == false)
 			throw new Exception("The email has invalid pattern!");
-		if(this.userRepoistory.findByUsername(user.getUsername())!=null)
+		if (this.userRepoistory.findByUsername(user.getUsername()) != null)
 			throw new Exception("The user name is not valid!");
 	}
-	
-	public User findByEmail(String email){
+
+	public User findByEmail(String email) {
 		return this.userRepoistory.findByEmail(email);
 	}
-	
-	private Date generateDateFromString(String stringDate) throws Exception{
-		int dd=Integer.parseInt(stringDate.substring(0, 2));
-		int mm=Integer.parseInt(stringDate.substring(3, 5));
-		int yy=Integer.parseInt(stringDate.substring(6, 10));
-		System.out.println(dd+" "+mm+" "+yy);
+
+	private Date generateDateFromString(String stringDate) throws Exception {
+		int dd = Integer.parseInt(stringDate.substring(0, 2));
+		int mm = Integer.parseInt(stringDate.substring(3, 5));
+		int yy = Integer.parseInt(stringDate.substring(6, 10));
+		System.out.println(dd + " " + mm + " " + yy);
 		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -101,10 +111,10 @@ public class UserDetailsService implements org.springframework.security.core.use
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		final User user = this.userRepoistory.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("user not found");
-        }
-        detailsChecker.check(user);
-        return user;
+		if (user == null) {
+			throw new UsernameNotFoundException("user not found");
+		}
+		detailsChecker.check(user);
+		return user;
 	}
 }

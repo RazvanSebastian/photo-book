@@ -1,5 +1,10 @@
 package com.restApi;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -18,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entity.DTO.UserDTO;
 import com.repository.model.User;
 import com.service.UserDetailsService;
+import com.service.local.AES;
+import org.apache.commons.codec.binary.Base64;
+import org.aspectj.weaver.NewParentTypeMunger;
 
 
 
@@ -27,6 +35,9 @@ public class UserController {
 	
 	@Autowired
 	private UserDetailsService userService;
+	@Autowired
+	private AES aesService;
+	
 
 	
 	@RequestMapping(value="/api/register",method=RequestMethod.POST)
@@ -58,22 +69,33 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/api/account/change-password",method=RequestMethod.PUT)
-	public ResponseEntity<?> changePassword(
-			@RequestHeader("UserName") String username,
-			@RequestHeader("NewPassword") String encriptedPassword,
-			@RequestHeader("OldPassword") String oldPassword){
+	@RequestMapping(value="/api/account/change-password",method=  {RequestMethod.PUT,RequestMethod.GET})
+	@ResponseBody
+	public String changePassword(
+			@RequestHeader("required") boolean required,
+			@RequestHeader(value="UserName",required=false) String username,
+			@RequestHeader(value="OldPassword",required=false) String oldPassword,
+			@RequestHeader(value="NewPassword",required=false) String newPassword,
+			@RequestHeader(value="IV",required=false) String ivBase64Client,
+			HttpServletRequest request
+			){
 		
-		try {
-		
-		
-		
-		
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(request.getMethod().equals("GET")){
+			return this.aesService.convertToBase64(this.aesService.generateRandomIv16Byte());
 		}
-		return new ResponseEntity(HttpStatus.OK);
+		if(request.getMethod().equals("PUT")){
+				String decryptedNewPassword=this.aesService.decrypt("0123456789abcdef","yYJ2ThDp053TALRw" ,newPassword );
+				String decryptedOldPassword=this.aesService.decrypt("0123456789abcdef", "yYJ2ThDp053TALRw", oldPassword);
+				try {
+					this.userService.updatePassword(decryptedOldPassword, decryptedNewPassword, username);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return e.getMessage();
+				}
+		}
+		return null;
+		
 		
 	}
 }

@@ -32,9 +32,14 @@ export class UserService {
     return this._http.put('http://localhost:8080/api/account/change-personal-info',JSON.stringify(user),options);
   }
 
-  changePassword(oldPassword,newPasswordEncripted,userName){
-    let headers = new Headers({"UserName":userName,"OldPassword":oldPassword,"NewPassword":newPasswordEncripted,"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
+  changePassword(ivBase64,oldPassword,newPasswordEncripted,userName){
+    let headers = new Headers({"required":true,"IV":ivBase64,"UserName":userName,"OldPassword":oldPassword,"NewPassword":newPasswordEncripted,"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
     let options = new RequestOptions({headers:headers});
     return this._http.put('http://localhost:8080/api/account/change-password',JSON.stringify(""),options);
+  }
+  getIv(){
+    let headers = new Headers({"required":false,"X-AUTH-TOKEN":localStorage.getItem("X-AUTH-TOKEN")});
+    let options = new RequestOptions({headers:headers});
+    return this._http.get("http://localhost:8080/api/account/change-password",options);
   }
 }
