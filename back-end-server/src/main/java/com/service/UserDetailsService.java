@@ -32,13 +32,15 @@ public class UserDetailsService implements org.springframework.security.core.use
 		String oldPasswordSql = this.userRepoistory.getPasswordByUsername(userName);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		if (encoder.matches("adminadmin",oldPasswordSql)==true) {
-			
-			if (encoder.matches(newPassword,oldPasswordSql))
+		if (encoder.matches(oldPassword.trim(),oldPasswordSql)==true) {			
+			if (encoder.matches(newPassword.trim(),oldPasswordSql)){
 				throw new Exception("The old password is the same with the new one!");
-			else
-				this.userRepoistory.updatePasswordByUserName(new BCryptPasswordEncoder().encode(newPassword),userName);
-		}
+			}
+			else{
+				System.out.println("It is ok!");
+				this.userRepoistory.updatePasswordByUserName(encoder.encode(newPassword.trim()),userName);
+			}
+		}	
 		else
 			throw new Exception("This is not your old password! If yout don't remember it try forget password option!");
 	}
