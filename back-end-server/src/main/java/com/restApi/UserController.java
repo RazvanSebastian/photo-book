@@ -1,6 +1,7 @@
 package com.restApi;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
@@ -81,21 +82,41 @@ public class UserController {
 			){
 		
 		if(request.getMethod().equals("GET")){
-			return this.aesService.convertToBase64(this.aesService.generateRandomIv16Byte());
+			String generated=this.aesService.generateRandomIv16Byte();
+//			System.out.println("Generat : "+generated);
+//			System.out.println("Generat base 64 : "+this.aesService.convertToBase64(generated));
+			return this.aesService.convertToBase64(generated).trim();
 		}
 		if(request.getMethod().equals("PUT")){
-				String decryptedNewPassword=this.aesService.decrypt("0123456789abcdef","yYJ2ThDp053TALRw" ,newPassword );
-				String decryptedOldPassword=this.aesService.decrypt("0123456789abcdef", "yYJ2ThDp053TALRw", oldPassword);
+			byte[] decoded = DatatypeConverter.parseBase64Binary(new String(ivBase64Client).trim());
+			String ivDecoded=new String(decoded, StandardCharsets.UTF_8);
+	
+				String decryptedNewPassword=this.aesService.decrypt("0123456789abcdef","TF9vQL5iqocPbAp6",newPassword );
+				String decryptedOldPassword=this.aesService.decrypt("0123456789abcdef", "TF9vQL5iqocPbAp6", oldPassword);
+//				System.out.println("nedecodat : "+ivBase64Client.substring(1, ivBase64Client.length()-1).trim());
+//				System.out.println("Decodat : "+ivDecoded);
+//				System.out.println("Password : "+decryptedNewPassword);
 				try {
 					this.userService.updatePassword(decryptedOldPassword, decryptedNewPassword, username);
+					return "Your password was successfully changed!";
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 					return e.getMessage();
 				}
 		}
 		return null;
-		
+	}
+	
+	@RequestMapping(value="/api/reset-password",method=RequestMethod.PUT)
+	public ResponseEntity<?> resetPassword(@RequestHeader(value="email") String email){
+		if(email.equals(""))
+			return new ResponseEntity<String>("You must type an email!",HttpStatus.NOT_ACCEPTABLE);
+		try {
+			this.userService.sendEmailAndResetPassword(email);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return new ResponseEntity<String>(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 	}
 }

@@ -113,7 +113,6 @@ public class PhotoService {
 	}
 	
 	public List<PhotoDto> getPhotoListByCriterium(String category,String date,String search){
-		System.out.println(category+" "+date+" "+search);
 		if(category.equals("") && date.equals("") && search.equals(""))
 			return new ArrayList<PhotoDto>();
 		

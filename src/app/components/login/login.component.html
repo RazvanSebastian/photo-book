@@ -33,6 +33,35 @@
             <div class="action">
               <a class="btn btn-primary signup"  (click)="onLogin()">Login</a>
             </div>
+
+            <div>
+              <div class="already">
+                <p>Forgot password?</p>
+                <a style="cursor:pointer;" data-toggle="modal" data-target="#myModal">Reset my password</a>
+              </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content" >
+                  <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="recipient-name" class="form-control-label" >Enter your email to reset your password : </label>
+                          <input [(ngModel)]="email" type="text" class="form-control" id="recipient-name" placeholder="Enter your email">
+                        </div>
+                      </form>
+                    </div>
+                    <p *ngIf="statusResponse!=0" class="{{color}}">{{responseText}}</p>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="statusResponse=0">Close</button>
+                      <button type="button" class="btn btn-primary" (click)="forgotPassword()">Send email</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
           </div>
         </div>
 

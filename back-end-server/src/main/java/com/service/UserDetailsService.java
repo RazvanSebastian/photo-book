@@ -17,6 +17,8 @@ import com.repository.model.User;
 import com.repository.model.UserRole;
 import com.repository.repository.StatsRepository;
 import com.repository.repository.UserRepository;
+import com.service.local.AES;
+import com.service.local.EmailService;
 
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -25,9 +27,25 @@ public class UserDetailsService implements org.springframework.security.core.use
 	private UserRepository userRepoistory;
 	@Autowired
 	private StatsRepository statsRepo;
-
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private AES aesService;
+		
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
-
+	
+	public void sendEmailAndResetPassword(String email) throws Exception{
+		User user=this.userRepoistory.findByEmail(email);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if(user!=null){
+			String newPass=this.aesService.generateRandomIv16Byte();
+			this.emailService.sendEmailNewPassword(email, newPass);
+			this.userRepoistory.updatePasswordByUserName(encoder.encode(newPass.trim()), email);
+		}
+		else
+			throw new Exception("This email is invalid!");
+	}
+	
 	public void updatePassword(String oldPassword, String newPassword, String userName) throws Exception {
 		String oldPasswordSql = this.userRepoistory.getPasswordByUsername(userName);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -37,7 +55,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 				throw new Exception("The old password is the same with the new one!");
 			}
 			else{
-				System.out.println("It is ok!");
+				
 				this.userRepoistory.updatePasswordByUserName(encoder.encode(newPassword.trim()),userName);
 			}
 		}	
@@ -102,7 +120,6 @@ public class UserDetailsService implements org.springframework.security.core.use
 		int dd = Integer.parseInt(stringDate.substring(0, 2));
 		int mm = Integer.parseInt(stringDate.substring(3, 5));
 		int yy = Integer.parseInt(stringDate.substring(6, 10));
-		System.out.println(dd + " " + mm + " " + yy);
 		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);

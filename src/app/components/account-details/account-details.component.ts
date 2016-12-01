@@ -3,8 +3,6 @@ import {UserService, UserLogin} from "../login/user.service";
 import { User} from "../register/registration.service";
 import * as CryptoJS from 'crypto-js';
 
-
-
 @Component({
   moduleId: module.id,
   selector: 'app-account-details',
@@ -13,6 +11,9 @@ import * as CryptoJS from 'crypto-js';
   providers: [UserService]
 })
 export class AccountDetailsComponent implements OnInit {
+
+  statusMessage:string;
+  color:string;
 
   oldPassword: string;
   newPassword: string;
@@ -61,7 +62,7 @@ export class AccountDetailsComponent implements OnInit {
     return false;
   }
 
-  aesEncryptionAsBase64(password,ivBase64){
+  aesEncryptionAsBase64(password:string,ivBase64:string){
 
     function padding(password) {
       var padChar = ' ';
@@ -73,7 +74,7 @@ export class AccountDetailsComponent implements OnInit {
       return passPadd;
     }
 
-    var iv=CryptoJS.enc.Base64.parse("eVlKMlRoRHAwNTNUQUxSdw==");
+    var iv=CryptoJS.enc.Base64.parse("VEY5dlFMNWlxb2NQYkFwNg==");
     // this is the actual key as a sequence of bytes
     var key = CryptoJS.enc.Base64.parse(this.base64Key);
     // this is the plain text
@@ -86,21 +87,43 @@ export class AccountDetailsComponent implements OnInit {
     return encryptedData;
   }
 
+  onSuccesChanged(data){
+    if(data._body.length<=40){
+      this.color="green";
+      this.statusMessage=data._body;
+      this.oldPassword="";
+      this.newPassword="";
+      this.retypeNewPassword="";
+    }
+    else{
+      this.color="red";
+      this.statusMessage=data._body;
+    }
+  }
+  onFailChanged(err){
+    this.color="red";
+    this.statusMessage=err._body;
+  }
+
   onSendEncryptedPasswords(data){
     //receive iv as base64 encoded
-    var ivBase64=JSON.stringify(data._body);
+    var ivBase64=data._body;
     //check the fields
-    // if(this.checkPasswordFields()==true){
+     if(this.checkPasswordFields()==true){
       //encrypt old password and new password
       var encryptedOldPassword=this.aesEncryptionAsBase64(this.oldPassword,ivBase64);
       var encryptedNewPassword=this.aesEncryptionAsBase64(this.newPassword,ivBase64);
       //send iv as base64 , encrypted passwords and username
       this._userService.changePassword(ivBase64,encryptedOldPassword, encryptedNewPassword, this.userName).subscribe(
-        data => console.log(data),
-        err => console.log(err)
+        data => this.onSuccesChanged(data),
+        err => this.onFailChanged(err)
       );
-//    }
+    }
+    else{
+      this.color="red";
+      this.statusMessage="One field is empty or please check if your passwords are same(new and retype password)!";
   }
+}
 
   onChangePassword() {
     //  this.newPasswordEncripted=CryptoJS.AES.encrypt(this.newPassword, this.key).toString();
@@ -108,6 +131,5 @@ export class AccountDetailsComponent implements OnInit {
       data =>this.onSendEncryptedPasswords(data),
       err =>console.log(err)
     );
-
   }
 }

@@ -44,6 +44,15 @@ public class EmailService
 		mm.sendMail("photo.book.api@gmail.com", "rzvs95@gmail.com", "Photo Book", message);
 	}
 	
+	public void sendEmailNewPassword(String email,String newPassword){
+		String message="Your password was changed! The new password is: "+newPassword;
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+
+		EmailService mm = (EmailService) context.getBean("mailMail");
+		mm.sendMail("photo.book.api@gmail.com", email, "Update password", message);
+	}
+	
 	public void getInfoAndSendMail(EmailMessage emailMessage,String ipAdress) throws EmailException{
 		IpAdress ipRequest=new IpAdress();
 		String date=new Date().getTime()+"";

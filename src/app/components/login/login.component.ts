@@ -17,6 +17,13 @@ export class LoginComponent implements OnInit {
   loginStatus: boolean = true;
   loggedIn: boolean = false;
   remember: boolean = false;
+
+  // forgot paasword fields
+  email:string;
+  responseText:string;
+  statusResponse:number=0;
+  color:string;
+
   constructor(private _loginService: UserService, private _router: Router, private _localService:LocalUserService) { }
 
   ngOnInit() {
@@ -30,7 +37,7 @@ export class LoginComponent implements OnInit {
     let token = response.headers._headersMap.get(tokenName);
     let userDetails = JSON.parse(response.headers._headersMap.get("USER-DETAILS"));
 
-    //here we are store the user details in localStorage
+    //here we are storing the user details in localStorage
     this. _localService.userDetailsStoring(token, userDetails, this.remember);
 
     this.loginStatus = true;
@@ -39,7 +46,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogFailed(error) {
-    console.log(error.status);
     this.loginStatus = false;
   }
 
@@ -50,4 +56,33 @@ export class LoginComponent implements OnInit {
       err => this.onLogFailed(err)
       );
   }
+
+  onResetResponse(data){
+    if(data.status==200){
+      this.statusResponse=200;
+      this.responseText="Your password was changed! Please check your email!";
+      this.color="green";
+    }
+
+  }
+  onResetFail(err){
+    if(err.status==406){
+      this.statusResponse=406;
+      this.responseText=err._body;
+      this.color="red";
+    }
+    if(err.status==400){
+      this.color="red";
+      this.statusResponse=400;
+      this.responseText="This email is invalid!";
+    }
+  }
+
+  forgotPassword(){
+    this._loginService.onResetPassword(this.email).subscribe(
+      data => this.onResetResponse(data),
+      err=>this.onResetFail(err)
+    );
+
+    }
 }

@@ -35,12 +35,21 @@ public class AES
 //	        return null;
 //	    }
 	
+		public char[] getCharFromString(){
+			int length=this.VALUES.length();
+			char chars[]=new char[length];
+			for(int i=0;i<length;i++)
+				chars[i]=VALUES.charAt(i);
+			return chars;
+		}
+	
 		public  String generateRandomIv16Byte(){
 			String randomIv="";
 			int index;
+			char[] chars=this.getCharFromString();
 			for(int i=1;i<=16;i++){
 				index=(int) (Math.random()*(62-0))+0;
-				randomIv+=VALUES.substring(index, index+1);
+				randomIv+=chars[index];
 			}
 			return randomIv;
 		}
@@ -53,8 +62,8 @@ public class AES
 	    public String decrypt(String key,String ivInit, String encryptedBase64) {
 	        try {
 	      
-	            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "AES");
-	            IvParameterSpec iv = new IvParameterSpec(ivInit.getBytes("UTF-8"));
+	            SecretKeySpec skeySpec = new SecretKeySpec(key.trim().getBytes(), "AES");
+	            IvParameterSpec iv = new IvParameterSpec(ivInit.trim().getBytes("UTF-8"));
 	            
 	            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 	            cipher.init(cipher.DECRYPT_MODE, skeySpec,iv);

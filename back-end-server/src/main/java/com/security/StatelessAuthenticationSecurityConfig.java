@@ -39,20 +39,19 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 				 * ANONYMOUS permission
 				 */
 				.antMatchers("/").permitAll()
+				.antMatchers(HttpMethod.HEAD, "/api/send-email").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/stats").permitAll()
+				.antMatchers(HttpMethod.PUT, "/api/reset-password").permitAll()
 				// allow anonymous to register
 				.antMatchers(HttpMethod.POST, "/api/register").permitAll()
 				// allow anonymous POSTs to login
 				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				.antMatchers(HttpMethod.HEAD, "/api/send-email").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/stats").permitAll()
-				
-				.antMatchers(HttpMethod.HEAD, "/api/login-guard/check").hasAnyRole("ADMIN","USER")
-				
+			
 				/*
 				 * USER permission
 				 */
 				
-			
+				.antMatchers(HttpMethod.HEAD, "/api/login-guard/check").hasAnyRole("ADMIN","USER")
 				.antMatchers(HttpMethod.GET, "/api/blob/*").hasRole("USER")
 				// allow only authenticated user to add, get
 				.antMatchers(HttpMethod.POST, "/api/account/*/photoAlbum").hasRole("USER")

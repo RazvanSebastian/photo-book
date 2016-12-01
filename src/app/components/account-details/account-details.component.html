@@ -66,19 +66,35 @@
     </div>
 
     <div class="form-group">
-      <button type="button" class="btn btn-info" (click)="onChangePassword()">
+      <button type="button" class="btn btn-info" (click)="onChangePassword()" data-toggle="modal" data-target="#changePasswordModal">
         <span class="glyphicon glyphicon-pencil"></span> Change your password
       </button>
     </div>
   </form>
 </form>
 
-<!-- Modal -->
+<!-- Modal change details-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
         <p> {{openModal}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>Cancel
+      </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal change password-->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p class="{{color}}"> {{ statusMessage }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">

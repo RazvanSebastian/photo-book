@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import {PhotoService,Photo} from '../photos/photo.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['new-photo.component.css'],
   providers : [PhotoService]
 })
-export class NewPhotoComponent implements OnInit {
+export class NewPhotoComponent implements OnInit  {
 
     albumId:any;
     newPhoto:Photo;
